@@ -1,0 +1,17 @@
+@import '../../styles/mixins';
+
+.header {
+    &__navbar {
+        background-color: $yellow;
+        font-family: 'Muli-Black';
+        letter-spacing: 5px;
+        
+        &-brand {
+            color: $white;
+        }
+
+        &-about {
+            color: $white;
+        }
+    }
+}
