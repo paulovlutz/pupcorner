@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"
 import './Header.scss';
+import logo from '../../assets/images/pupcorner-logo.png'
 import Navbar from 'react-bootstrap/Navbar';
 
 const Header = () => (
@@ -17,12 +18,12 @@ const Navigation = () => (
                 <Navbar.Brand>
                     <Link to="/">
                         <Navbar.Text className="header__navbar-brand">
-                            <span className="header__navbar-brand"><i class="fas fa-paw"></i> Pupcorner</span>
+                            <span className="header__navbar-brand"><img className="header__logo" src={logo} alt="pupcorner logo" />Pupcorner</span>
                         </Navbar.Text>
                     </Link>
                 </Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
-                    <Link to="/">
+                    <Link to="/quiz">
                         <Navbar.Text>
                             <span className="header__navbar-about">About Us</span>
                         </Navbar.Text>

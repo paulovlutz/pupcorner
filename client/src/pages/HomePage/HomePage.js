@@ -8,7 +8,9 @@ class HomePage extends Component {
         return (
             <>
                 <Header />
-                <h1>HOME PAGE</h1>
+                <section className="home">
+                    <h1 className="home__title">HOME PAGE</h1>
+                </section>
             </>
         )
     }

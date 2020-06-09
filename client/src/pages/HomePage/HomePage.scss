@@ -1,0 +1,10 @@
+@import '../../styles/mixins';
+
+.home {
+    background-color: $blue;
+    height: 1000px;
+
+    &__title {
+        color: $white;
+    }
+}
