@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"
 import './Header.scss';
-import logo from '../../assets/images/pupcorner-logo.png'
+import logoSmall from '../../assets/images/pupcorner-logo-small.png'
 import Navbar from 'react-bootstrap/Navbar';
 
 const Header = () => (
@@ -17,8 +17,8 @@ const Navigation = () => (
         <Navbar sticky="top">
                 <Navbar.Brand>
                     <Link to="/">
-                        <Navbar.Text className="header__navbar-brand">
-                            <span className="header__navbar-brand"><img className="header__logo" src={logo} alt="pupcorner logo" />Pupcorner</span>
+                        <Navbar.Text>
+                            <span className="header__navbar-brand"><img className="header__logo" src={logoSmall} alt="pupcorner logo" />Pupcorner</span>
                         </Navbar.Text>
                     </Link>
                 </Navbar.Brand>
