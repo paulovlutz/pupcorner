@@ -1,0 +1,85 @@
+@import '../../styles/mixins';
+
+.dogfound {
+    &__card {
+        font-family: "Muli-Regular";
+        z-index: 1;
+        width: 15rem;
+        margin: 40px 40px 20px 0;
+        box-shadow: 0 12px 32px 4px rgba($black, .1);
+        position: relative;
+        cursor: pointer;
+        border-radius: 8px;
+
+        &:hover &-like, &-like:focus-within {
+            width:10rem;
+            height:10rem;
+        }
+
+        &-image {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        &-like {
+            position: absolute;
+            top: 1.25rem;
+            left: 1.25rem;
+            border-radius: 100%;
+            width: 0rem;
+            height: 0rem;
+            transform: translate(-50%, -50%);
+            transition: .25s cubic-bezier(0.25, 0, 0, 1);
+        }
+
+        &-heart {
+            display: grid;
+            place-items: center;
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            border: none;
+            border-radius: 100%;
+            background: $white;
+            color: $yellow;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: .25s cubic-bezier(0.25, 0, 0, 1);
+            box-shadow: 0 0 0rem -.25rem $yellow;
+
+            &:hover {
+                background: $yellow;
+                color: $white;
+                box-shadow: 0 0 2rem -.25rem $yellow;
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            &:first-child:nth-last-child(1),
+            &:first-child:nth-last-child(1) ~ * {
+                &:nth-child(1) {
+                    left: 25%;
+                    top: 25%;
+                }
+            }
+        }
+
+        &-container {
+            z-index: 1;
+        }
+
+        &-title {
+            font-family: "Muli-Bold";
+        }
+
+        &-breed {
+            display: flex;
+            justify-content: center;
+            margin-top: 5px;
+        }
+
+        &-paw {
+            font-size: 0.2rem;
+        }
+    }
+}

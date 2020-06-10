@@ -1,0 +1,27 @@
+@import '../../styles/mixins';
+
+.dogsfound {
+    background: $darker-blue;
+    background: -webkit-linear-gradient(top left, $darker-blue 0%, $blue 100%);
+    background: -moz-linear-gradient(top left, $darker-blue 0%, $blue 100%);
+    background: -o-linear-gradient(top left, $darker-blue 0%, $blue 100%);
+    background: linear-gradient(to bottom right, $darker-blue 0%, $blue 100%);
+    min-height: 100vh;
+    padding: 100px;
+    font-family: "Muli-Regular";
+
+    &__title {
+        display: flex;
+        justify-content: center;
+        color: $white;
+        font-family: "Muli-Black";
+    }
+
+    @include desktop {
+        position: relative;
+    }
+
+    &__others {
+        margin-top: 40px;
+    }
+}

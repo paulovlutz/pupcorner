@@ -1,0 +1,17 @@
+@import "../../styles/mixins";
+
+.buttonRetakeQuiz {
+    background-color: $yellow;
+    border: 1px solid $yellow;
+    color: $white;
+    font-family: "Muli-Black";
+    letter-spacing: 3px;
+    margin: 40px 0;
+    box-shadow: 0 12px 32px 4px rgba($black, .1);
+
+    &:hover {
+        background-color: $white;
+        border: 1px solid $white;
+        color: $yellow;
+    }
+}
