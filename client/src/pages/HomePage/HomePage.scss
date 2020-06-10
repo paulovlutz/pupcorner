@@ -2,12 +2,34 @@
 
 .home {
     background-color: $blue;
+    background-image: url("../../assets/images/homeImage.png");
+    background-size: cover;
+    background-position: 0% 75%;
     position: fixed;
     min-height: 100vh;
     min-width: 100vw;
     padding: 100px;
+    font-family: "Muli-Regular";
 
-    &__title {
-        color: $white;
+    &__text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        &-title {
+            color: $black;
+            font-family: "Muli-Black";
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+        }
+
+        &-slogan {
+            font-family: "Muli-Bold";
+        }
+    }
+
+    &__button {
+        display: flex;
+        justify-content: flex-end;
     }
 }

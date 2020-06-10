@@ -1,6 +1,6 @@
 @import "../../styles/mixins";
 
-.buttonRetakeQuiz {
+a.btn.btn-primary.buttonRetakeQuiz {
     background-color: $yellow;
     border: 1px solid $yellow;
     color: $white;
@@ -13,5 +13,16 @@
         background-color: $white;
         border: 1px solid $white;
         color: $yellow;
+    }
+
+    &:active {
+        background-color: $white;
+        border: none;
+        color: $yellow;
+        outline: none;
+    }
+
+    &:focus {
+        border: 1px solid $white;
     }
 }

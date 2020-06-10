@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 
 const ButtonRetakeQuiz = () => {
     return (
-        <Button className="buttonRetakeQuiz">Retake the Quiz</Button>
+        <Button href="/quiz" className="buttonRetakeQuiz">Retake the Quiz</Button>
     )
 }
 
