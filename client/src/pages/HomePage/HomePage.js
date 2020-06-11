@@ -5,10 +5,6 @@ import Header from '../../components/Header/Header';
 import ButtonQuiz from "../../components/ButtonQuiz/ButtonQuiz";
 
 class HomePage extends Component {
-    state = {
-        message: "Take the Quiz"
-    }
-
     render() {
         return (
             <>
@@ -24,7 +20,7 @@ class HomePage extends Component {
                         </h4>
                     </div>
                     <div className="home__button">
-                        <ButtonQuiz text={this.state.message} />
+                        <ButtonQuiz text={"Take the Quiz"} />
                     </div>
                 </section>
             </>
