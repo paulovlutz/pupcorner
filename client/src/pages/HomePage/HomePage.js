@@ -2,9 +2,13 @@ import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import './HomePage.scss';
 import Header from '../../components/Header/Header';
-import ButtonTakeQuiz from "../../components/ButtonTakeQuiz/ButtonTakeQuiz";
+import ButtonQuiz from "../../components/ButtonQuiz/ButtonQuiz";
 
 class HomePage extends Component {
+    state = {
+        message: "Take the Quiz"
+    }
+
     render() {
         return (
             <>
@@ -20,7 +24,7 @@ class HomePage extends Component {
                         </h4>
                     </div>
                     <div className="home__button">
-                        <ButtonTakeQuiz />
+                        <ButtonQuiz text={this.state.message} />
                     </div>
                 </section>
             </>

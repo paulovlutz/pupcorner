@@ -3,7 +3,7 @@ import './DogsFound.scss';
 import Header from '../../components/Header/Header';
 import CardDogFound from '../../components/CardDogFound/CardDogFound';
 import Row from 'react-bootstrap/Row';
-import ButtonRetakeQuiz from "../../components/ButtonRetakeQuiz/ButtonRetakeQuiz";
+import ButtonQuiz from "../../components/ButtonQuiz/ButtonQuiz";
 
 class HomePage extends Component {
     render() {
@@ -25,7 +25,7 @@ class HomePage extends Component {
                         </Row>
                     </div>
                     <Row className="justify-content-lg-center">
-                        <ButtonRetakeQuiz />
+                        <ButtonQuiz text={"Retake the Quiz"} />
                     </Row>
                 </section>
             </>
