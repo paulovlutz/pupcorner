@@ -14,9 +14,13 @@ class CardQuizPage extends Component {
             <Container>
                 <Row className="justify-content-lg-center">
                     {this.cardAnswerOption.map((card, _) => {
+                        let activeClass = "";
+                        if (this.props.selectedAnswers !== undefined && this.props.selectedAnswers.includes(card.id)) {
+                            activeClass = "active";
+                        }
                         return (
                         <Col lg="auto">
-                            <Card className="quiz__card">
+                            <Card className={"quiz__card " + activeClass} onClick={() => this.props.handleActiveClass(card.id, this.props.questionId)}>
                                 <Card.Body>
                                     <Card.Title>{card.title}</Card.Title>
                                     <Card.Text>{card.text}</Card.Text>
