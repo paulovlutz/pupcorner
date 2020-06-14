@@ -3,8 +3,9 @@
 .quiz {
     &__card {
         z-index: 1;
-        width: 15rem;
+        max-width: 250px;
         margin-bottom: 20px;
+        text-align: center;
 
         margin: 1rem;
         padding: .5rem 1rem;
@@ -24,6 +25,11 @@
 
         &.active {
             background-color: $yellow;
+        }
+
+        &-content {
+            display: flex;
+            align-items: center;
         }
     }
 }

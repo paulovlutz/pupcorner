@@ -1,0 +1,258 @@
+[
+    { 
+        "id": "children",
+        "question": "Do you have kids at home?", 
+        "answers": [
+            {
+                "id": "yes",
+                "text": "I have kids at home"
+            },
+            {
+                "id": "no",
+                "text": "I don't have kids at home"
+            }
+        ]
+    },
+    { 
+        "id": "dogs",
+        "question": "Do you have dogs at home?", 
+        "answers": [
+            {
+                "id": "yes",
+                "text": "I have dogs at home"
+            },
+            {
+                "id": "no",
+                "text": "I don't have dogs at home"
+            }
+        ]
+    },
+    { 
+        "id": "cats",
+        "question": "Do you have cats at home?", 
+        "answers": [
+            {
+                "id": "yes",
+                "text": "I have cats at home"
+            },
+            {
+                "id": "no",
+                "text": "I don't have cats at home"
+            }
+        ]
+    },
+    { 
+        "id": "house_trained",
+        "question": "How important is house training?", 
+        "answers": [
+            {
+                "id": "false",
+                "text": "Doesn't matter"
+            },
+            {
+                "id": "true",
+                "text": "Must be house trained"
+            }
+        ]
+    },
+    { 
+        "id": "size",
+        "question": "What’s the size of your next pawfect friend?", 
+        "answers": [
+            {
+                "id": "any",
+                "text": "Doesn't matter"
+            },
+            {
+                "id": "small",
+                "text": "Small"
+            },
+            {
+                "id": "medium",
+                "text": "Medium"
+            },
+            {
+                "id": "large",
+                "text": "Large"
+            },
+            {
+                "id": "xlarge",
+                "text": "Extra Large"
+            }
+        ]
+    },
+    { 
+        "id": "age",
+        "question": "How about his/her age?", 
+        "answers": [
+            {
+                "id": "any",
+                "text": "Doesn't matter"
+            },
+            {
+                "id": "puppy",
+                "text": "Puppy"
+            },
+            {
+                "id": "young",
+                "text": "Young"
+            },
+            {
+                "id": "adult",
+                "text": "Adult"
+            },
+            {
+                "id": "senior",
+                "text": "Senior"
+            }
+        ]
+    },
+    { 
+        "id": "gender",
+        "question": "How about the gender?", 
+        "answers": [
+            {
+                "id": "unknown",
+                "text": "Doesn't matter"
+            },
+            {
+                "id": "male",
+                "text": "Male"
+            },
+            {
+                "id": "female",
+                "text": "Female"
+            }
+        ]
+    },
+    { 
+        "id": "trainability",
+        "question": "What level of trainability are you looking for in a dog?", 
+        "answers": [
+            {
+                "id": "eager",
+                "text": "Eager to Please"
+            },
+            {
+                "id": "easy",
+                "text": "Easy Training"
+            },
+            {
+                "id": "agreeable",
+                "text": "Agreeable"
+            },
+            {
+                "id": "independent",
+                "text": "Independent"
+            },
+            {
+                "id": "stubborn",
+                "text": "May be Stubborn"
+            }
+        ]
+    },
+    { 
+        "id": "shedding",
+        "question": "What is your tolerance for shedding?", 
+        "answers": [
+            {
+                "id": "infrequent",
+                "text": "Infrequent"
+            },
+            {
+                "id": "occasional",
+                "text": "Occasional"
+            },
+            {
+                "id": "seasonal",
+                "text": "Seasonal"
+            },
+            {
+                "id": "regularly",
+                "text": "Independent"
+            },
+            {
+                "id": "frequent",
+                "text": "Frequent"
+            }
+        ]
+    },
+    { 
+        "id": "grooming",
+        "question": "How much time do you want to spend grooming your dog?", 
+        "answers": [
+            {
+                "id": "occasional",
+                "text": "Occasional"
+            },
+            {
+                "id": "weekly",
+                "text": "Weekly Brushin"
+            },
+            {
+                "id": "times",
+                "text": "2-3 Times a Week Brushing"
+            },
+            {
+                "id": "daily",
+                "text": "Daily Brushing"
+            },
+            {
+                "id": "professional",
+                "text": "Professional"
+            }
+        ]
+    },
+    { 
+        "id": "energy",
+        "question": "Are you looking for a lazy or an active friend?", 
+        "answers": [
+            {
+                "id": "couch",
+                "text": "Couch Potato"
+            },
+            {
+                "id": "calm",
+                "text": "Calm"
+            },
+            {
+                "id": "regular",
+                "text": "Regular Exercise"
+            },
+            {
+                "id": "energetic",
+                "text": "Energetic"
+            },
+            {
+                "id": "lots",
+                "text": "Needs Lots of Activity"
+            }
+        ]
+    },
+    { 
+        "id": "temperament",
+        "question": "Are you looking for a more outgoing or a wary friend?", 
+        "answers": [
+            {
+                "id": "wary",
+                "text": "Aloof/Wary"
+            },
+            {
+                "id": "reserved",
+                "text": "Reserved with Strangers"
+            },
+            {
+                "id": "alert",
+                "text": "Alert/Responsive"
+            },
+            {
+                "id": "friendly",
+                "text": "Friendly"
+            },
+            {
+                "id": "outgoing",
+                "text": "Outgoing"
+            }
+        ]
+    }
+]

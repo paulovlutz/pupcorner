@@ -18,52 +18,59 @@
         }
     }
     
-    &__cards-arrow {
-
-        // @include mobile {
-        //     display: none;
-        // }
-
-        display: flex;
-        align-items: center;
-        font-size: 3rem;
-        color: $white;
-        z-index: 3;
-        cursor: pointer;
-
-        position: absolute;
-        top: 50%;
-        width: 3vmin;
-        height: 3vmin;
-        background: transparent;
-        border-top: 1vmin solid $white;
-        border-right: 1vmin solid $white;
-        box-shadow: 0 0 0 $lightgray;
-        transition: all 200ms ease;
-        
-        &.left {
-            left: 0;
-            transform: translate3d(0,-50%,0) rotate(-135deg);
-        }
+    &__cards {
     
-        &.right {
-            right: 0;
-            transform: translate3d(0,-50%,0) rotate(45deg);
-        }
-        
-        &:hover {
-            border-color: $yellow;
-            box-shadow: 0.5vmin -0.5vmin 0 $white;
-        }
-        
-        &:before {
-            content: '';
+            &-arrow {
+
+            // @include mobile {
+            //     display: none;
+            // }
+
+            display: flex;
+            align-items: center;
+            font-size: 3rem;
+            color: $white;
+            z-index: 3;
+            cursor: pointer;
+
             position: absolute;
             top: 50%;
-            left: 50%;
-            transform: translate(-40%,-60%) rotate(45deg);
-            width: 200%;
-            height: 200%;
+            width: 3vmin;
+            height: 3vmin;
+            background: transparent;
+            border-top: 1vmin solid $white;
+            border-right: 1vmin solid $white;
+            box-shadow: 0 0 0 $lightgray;
+            transition: all 200ms ease;
+            
+            &.left {
+                left: 0;
+                transform: translate3d(0,-50%,0) rotate(-135deg);
+            }
+        
+            &.right {
+                right: 0;
+                transform: translate3d(0,-50%,0) rotate(45deg);
+            }
+            
+            &:hover {
+                border-color: $yellow;
+                box-shadow: 0.5vmin -0.5vmin 0 $white;
+            }
+            
+            &:before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-40%,-60%) rotate(45deg);
+                width: 200%;
+                height: 200%;
+            }
+        }
+
+        &-button {
+            margin-top: 40px;
         }
     }
 }

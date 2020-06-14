@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import './QuizPage.scss';
+import "../../components/ButtonQuiz/ButtonQuiz.scss";
 import Header from '../../components/Header/Header';
 import CardQuizPage from '../../components/CardQuizPage/CardQuizPage';
 import AnimatedSquareBackground from '../../components/AnimatedSquareBackground/AnimatedSquareBackground'
@@ -7,6 +8,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Wizard, Steps, Step } from 'react-albus';
+import quizQuestions from "./quizQuestions.json";
+import Button from "react-bootstrap/Button";
 
 class QuizPage extends Component {
 
@@ -33,50 +36,7 @@ class QuizPage extends Component {
         })
     }
 
-    questions = [
-        { 
-            id: "1",
-            question: 'Is Coco the cutest dog in the world: yes or yes?', 
-            answers: [
-                {
-                    id: "a1",
-                    title: 'Card Title',
-                    text: "Some quick example text to build on the card title and make up the bulk of the card's content."
-                },
-                {
-                    id: "a2",
-                    title: 'Card Title',
-                    text: "Some quick example text to build on the card title and make up the bulk of the card's content."
-                },
-                {
-                    id: "a3",
-                    title: 'Card Title',
-                    text: "Some quick example text to build on the card title and make up the bulk of the card's content."
-                }
-            ]
-        },
-        { 
-            id: "2",
-            question: 'Is Coco the most fandanginho dog in the world: yes or yes?', 
-            answers: [
-                {
-                    id: "a4",
-                    title: 'Card Title',
-                    text: "Some quick example text to build on the card title and make up the bulk of the card's content."
-                },
-                {
-                    id: "a5",
-                    title: 'Card Title',
-                    text: "Some quick example text to build on the card title and make up the bulk of the card's content."
-                },
-                {
-                    id: "a6",
-                    title: 'Card Title',
-                    text: "Some quick example text to build on the card title and make up the bulk of the card's content."
-                }
-            ]
-        }
-    ]
+    questions = quizQuestions;
 
     render() {
 
@@ -115,6 +75,13 @@ class QuizPage extends Component {
                                                             <a className="quiz__cards-arrow right" onClick={next}></a>
                                                         )}                                                            
                                                     </Col>
+                                                </Row>
+                                                <Row className="justify-content-lg-center quiz__cards-button">
+                                                    <Col lg="auto">
+                                                        {steps.indexOf(step) === steps.length - 1 && (
+                                                            <Button href="#" className="button">Find Dogs!</Button>
+                                                        )}
+                                                    </Col>                                                     
                                                 </Row>
                                             </Container>
                                         </div>
