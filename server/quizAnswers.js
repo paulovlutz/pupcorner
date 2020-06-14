@@ -14,19 +14,21 @@ let characteristics_db = ["shedding", "energy_level"];
 // answers format selectedAnswers = { size: [a1, a2], age: [a4] }
 
 router.post("/", (req, res) => {
-    console.log("Database POST test");
-    client.authenticate();
+    console.log(req.body);
+    res.send("ABACATE DO SERVIDOR!");
+    // console.log("Database POST test");
+    // client.authenticate();
 
-    client.animal.search({
-        type: "Dog",
-        location_slug: "ca/ontario/toronto"
-    })
-    .then(result => {
-        console.log(result.data.animals);
-    })
-    .catch(err => {
-        console.log(err);
-    })
+    // client.animal.search({
+    //     type: "Dog",
+    //     location_slug: "ca/ontario/toronto"
+    // })
+    // .then(result => {
+    //     console.log(result.data.animals);
+    // })
+    // .catch(err => {
+    //     console.log(err);
+    // })
 
     // make a call to get the dogsFound from the API
 

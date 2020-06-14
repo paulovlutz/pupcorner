@@ -10,6 +10,9 @@ import Col from 'react-bootstrap/Col';
 import { Wizard, Steps, Step } from 'react-albus';
 import quizQuestions from "./quizQuestions.json";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
+
+const backend_url = "http://localhost:8080";
 
 class QuizPage extends Component {
 
@@ -30,10 +33,24 @@ class QuizPage extends Component {
             clickedAnswers = [...answersArray, answerId];
         }
         this.setState({
-            selectedAnswers: {[questionId]: clickedAnswers}
+            selectedAnswers: {...this.state.selectedAnswers, [questionId]: clickedAnswers}
         }, () => {
             console.log(this.state);
         })
+    }
+
+    handleSubmitAnswers = event => {
+        event.preventDefault();
+        console.log("ABACATE FORA");
+
+        axios
+            .post(backend_url + "/quizAnswers", this.state.selectedAnswers)
+            .then(result => {
+                console.log(result.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     questions = quizQuestions;
@@ -79,7 +96,7 @@ class QuizPage extends Component {
                                                 <Row className="justify-content-lg-center quiz__cards-button">
                                                     <Col lg="auto">
                                                         {steps.indexOf(step) === steps.length - 1 && (
-                                                            <Button href="#" className="button">Find Dogs!</Button>
+                                                            <Button href="#" className="button" onClick={this.handleSubmitAnswers}>Find Dogs!</Button>
                                                         )}
                                                     </Col>                                                     
                                                 </Row>
