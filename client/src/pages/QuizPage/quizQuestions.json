@@ -60,10 +60,6 @@
         "question": "What’s the size of your next pawfect friend?", 
         "answers": [
             {
-                "id": "any",
-                "text": "Doesn't matter"
-            },
-            {
                 "id": "small",
                 "text": "Small"
             },
@@ -86,10 +82,6 @@
         "question": "How about his/her age?", 
         "answers": [
             {
-                "id": "any",
-                "text": "Doesn't matter"
-            },
-            {
                 "id": "puppy",
                 "text": "Puppy"
             },
@@ -111,10 +103,6 @@
         "id": "gender",
         "question": "How about the gender?", 
         "answers": [
-            {
-                "id": "unknown",
-                "text": "Doesn't matter"
-            },
             {
                 "id": "male",
                 "text": "Male"
@@ -169,7 +157,7 @@
             },
             {
                 "id": "regularly",
-                "text": "Independent"
+                "text": "Regularly"
             },
             {
                 "id": "frequent",
@@ -183,11 +171,11 @@
         "answers": [
             {
                 "id": "occasional",
-                "text": "Occasional"
+                "text": "Occasional Bath/Brush"
             },
             {
                 "id": "weekly",
-                "text": "Weekly Brushin"
+                "text": "Weekly Brushing"
             },
             {
                 "id": "times",
