@@ -16,33 +16,27 @@ let characteristics_db = ["trainability", "shedding", "grooming", "energy", "tem
 
 router.post("/", (req, res) => {
     let answerBody = req.body;
-    console.log(req.body);
-    res.send("ABACATE DO SERVIDOR!");
-    console.log("Database POST test");
     client.authenticate();
 
     let searchParams = {
         type: "Dog",
         location: "Toronto, Ontario, Canada",
-        distance: 50
+        distance: 50,
     }
 
     // Filter Dogs
 
     if (answerBody.children.includes("yes")) {
-        console.log("ABACATE DA CRIANÇA");
         searchParams["good_with_children"] = "true";
         console.log(searchParams);
     }
 
     if (answerBody.dogs.includes("yes")) {
-        console.log("ABACATE DO DOGJOHNSON");
         searchParams["good_with_dogs"] = "true";
         console.log(searchParams);
     }
 
     if (answerBody.cats.includes("yes")) {
-        console.log("ABACATE DO GATINHO");
         searchParams["good_with_cats"] = "true";
         console.log(searchParams);
     }
@@ -52,7 +46,7 @@ router.post("/", (req, res) => {
     client.animal.search(searchParams)
     .then(result => {
         let dogsFound = result.data.animals;
-        console.log(dogsFound);
+        let dogRanking = {};
 
         for (let i = 0; i < dogsFound.length; i++) {
             let dogAPI = {
@@ -63,7 +57,6 @@ router.post("/", (req, res) => {
                 gender: dogsFound[i].gender
             };
 
-            let dogRanking = {};
             let singleDogId = dogAPI.id;
     
             for (let j = 0; j < characteristics_api.length; j++) {
@@ -71,13 +64,11 @@ router.post("/", (req, res) => {
     
                 // ["small", "medium"].includes("small")
                 if (dogAPI[characteristic] !== undefined && answerBody[characteristic].includes(dogAPI[characteristic].toLowerCase())) {
-                    console.log("QUALQUER COISA");
     
                     if (dogRanking[singleDogId] === undefined) {
                         dogRanking[singleDogId] = 0;
                     }
                     dogRanking[singleDogId] += 1;
-                    console.log(dogRanking);
                 }
             }
 
@@ -118,8 +109,6 @@ router.post("/", (req, res) => {
                             dogRanking[singleDogId] = 0;
                         }
                         dogRanking[singleDogId] += 1;
-                        console.log(dogRanking);
-
                     }
                 }
 
@@ -127,8 +116,24 @@ router.post("/", (req, res) => {
             .catch(err => {
                 console.log("Could not find " + dogFoundPrimaryBreed);
             });
-
         }
+
+        // Sort dogs
+        let dogsSorted = Object.keys(dogRanking).sort(function(a,b){return dogRanking[b]-dogRanking[a]});
+        console.log(dogsSorted);
+        let dogsArray = [];
+
+        // pega os ids pra achars os dogjohnson
+        for (let c = 0; c < dogsSorted.length; c++) {
+            console.log(dogsSorted[c]);
+
+            let singleDogFound = dogsFound.find(dog => {
+                return dog.id == dogsSorted[c];
+            });
+
+            dogsArray.push(singleDogFound);
+        }
+        return res.status(200).json({dogsFound: dogsArray});
     })
     .catch(err => {
         console.log(err);

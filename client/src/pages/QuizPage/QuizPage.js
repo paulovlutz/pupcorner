@@ -11,6 +11,7 @@ import { Wizard, Steps, Step } from 'react-albus';
 import quizQuestions from "./quizQuestions.json";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 const backend_url = "http://localhost:8080";
 
@@ -46,7 +47,10 @@ class QuizPage extends Component {
         axios
             .post(backend_url + "/quizAnswers", this.state.selectedAnswers)
             .then(result => {
-                console.log(result.data);
+                this.props.history.push({
+                    pathname: '/dogsfound',
+                    state: { dogs: result.data.dogsFound }
+                })
             })
             .catch(err => {
                 console.log(err);

@@ -6,6 +6,15 @@ import Row from 'react-bootstrap/Row';
 import ButtonQuiz from "../../components/ButtonQuiz/ButtonQuiz";
 
 class HomePage extends Component {
+
+    state = {
+        dogs: []
+    }
+
+    componentDidMount() {
+        console.log(this.state.dogs);
+    }
+
     render() {
         return (
             <>
@@ -14,16 +23,16 @@ class HomePage extends Component {
                     <div className="dogsfound__closest">
                         <h1 className="dogsfound__title">Best Closest Matches</h1>
                         <Row className="justify-content-lg-center">
-                            <CardDogFound />
+                            <CardDogFound dogs={this.props.location.state.dogs} />
                         </Row>
                     </div>
 
-                    <div className="dogsfound__others">
+                    {/* <div className="dogsfound__others">
                         <h1 className="dogsfound__title">Other Dogs Found</h1>
                         <Row className="justify-content-lg-center">
                             <CardDogFound />
                         </Row>
-                    </div>
+                    </div> */}
                     <Row className="justify-content-lg-center">
                         <ButtonQuiz text={"Retake the Quiz"} />
                     </Row>
