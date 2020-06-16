@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const quizAnswers = require("./quizAnswers");
+const dogDetail = require("./dogDetails");
 
 require('dotenv').config();
 
@@ -15,5 +16,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/quizAnswers", quizAnswers);
+app.use("/dogDetails", dogDetail);
 
 app.listen(port, () => console.log(`Server running on ${port}`));
