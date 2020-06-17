@@ -10,6 +10,7 @@ const Breed = require("./models/breed");
 const client = new petfinder.Client({apiKey: "d88tWoXDhGqJnRvgYCRrwY0Drudlpeyvinjm1IG6wiGUITDll6", secret: "GteFtzSAfebyEsbmhGLiApKG7jk9EF9E80KaDLAC"});
 
 router.get("/:id", (req, res) => {
+    client.authenticate();
     // pegar o id do dog pelo api
     let dog = {};
     let dogId = req.params.id;
@@ -18,19 +19,36 @@ router.get("/:id", (req, res) => {
     .then(result => {
         let dogResult = result.data.animal;
         let dogBreed = dogResult.breeds.primary;
+        let dogPhoto = "";
+
+        dogResult.photos.forEach(photo => {
+            dogPhoto = photo.large;
+        });
 
         Breed.where("breed", "like", "%" + dogBreed + "%")
             .fetch()
             .then(result => {
+                let dogAttributeDB = result.attributes;
+
                 dog = {
+                    id: dogResult.id,
+                    photo: dogPhoto,
                     name: dogResult.name,
+                    breed: dogBreed,
                     description: dogResult.description,
                     age: dogResult.age,
                     gender: dogResult.gender,
                     size: dogResult.size,
-                    shedding: result.attributes.shedding
+                    shedding: dogAttributeDB.shedding,
+                    grooming: dogAttributeDB.grooming,
+                    energy: dogAttributeDB.energy,
+                    trainability: dogAttributeDB.trainability,
+                    temperament: dogAttributeDB.temperament,
+                    life_expectancy: dogAttributeDB.life_expectancy,
+                    weight: dogAttributeDB.weight
                 }
                 console.log(dog);
+                return res.status(200).json({dog: dog});
             })
     })
     .catch(err => {

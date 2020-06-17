@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import './Header.scss';
 import logoSmall from '../../assets/images/pupcorner-logo-small.png'
 import Navbar from 'react-bootstrap/Navbar';

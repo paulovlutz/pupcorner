@@ -1,0 +1,84 @@
+@import '../../styles/mixins';
+
+.dogDetails {
+    background: $darker-blue;
+    background: -webkit-linear-gradient(top left, $darker-blue 0%, $blue 100%);
+    background: -moz-linear-gradient(top left, $darker-blue 0%, $blue 100%);
+    background: -o-linear-gradient(top left, $darker-blue 0%, $blue 100%);
+    background: linear-gradient(to bottom right, $darker-blue 0%, $blue 100%);
+
+    min-height: 100vh;
+    padding: 50px 50px 50px 0px;
+    font-family: "Muli-Regular";
+    color: $white;
+
+    &__image {
+        display: flex;
+        justify-content: center;
+        
+        &-image {
+            max-height: 800px;
+        }
+    }
+
+    &__arrow {
+        display: flex;
+        align-items: center;
+        font-size: 3rem;
+        z-index: 3;
+        cursor: pointer;
+
+        position: absolute;
+        top: 50%;
+        width: 3vmin;
+        height: 3vmin;
+        background: transparent;
+        border-top: 1vmin solid $white;
+        border-right: 1vmin solid $white;
+        box-shadow: 0 0 0 $lightgray;
+        transition: all 200ms ease;
+        
+        &.left {
+            left: 0;
+            transform: translate3d(0,-50%,0) rotate(-135deg);
+        }
+
+        &:hover {
+            border-color: $yellow;
+            box-shadow: 0.5vmin -0.5vmin 0 $white;
+        }
+        
+        &:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-40%,-60%) rotate(45deg);
+            width: 200%;
+            height: 200%;
+        }
+    }
+
+    &__name {
+        font-family: "Muli-Black";
+    }
+
+    &__generalInfo {
+        font-family: "Muli-Black";
+        margin: 10px 0 30px 0;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &-bold {
+            font-family: "Muli-Bold";
+        }
+    }
+
+    &__container {
+        margin-left: 50px;
+    }
+}

@@ -21,6 +21,7 @@
             border-top-right-radius: 8px;
             max-height: 13rem;
             min-height: 13rem;
+            object-fit: cover;
         }
 
         &-like {
@@ -82,6 +83,16 @@
 
         &-paw {
             font-size: 0.2rem;
+        }
+    }
+
+    &__link {
+        text-decoration: none;
+        color: $black;
+
+        &:hover {
+            text-decoration: none;
+            color: $black;
         }
     }
 }
