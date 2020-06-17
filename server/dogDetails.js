@@ -19,16 +19,13 @@ router.get("/:id", (req, res) => {
     .then(result => {
         let dogResult = result.data.animal;
         let dogBreed = dogResult.breeds.primary;
-        let dogPhoto = "";
-
-        dogResult.photos.forEach(photo => {
-            dogPhoto = photo.large;
-        });
+        let dogPhoto = dogResult.photos[0].large;
 
         Breed.where("breed", "like", "%" + dogBreed + "%")
             .fetch()
             .then(result => {
                 let dogAttributeDB = result.attributes;
+                console.log("CADE CATINA");
 
                 dog = {
                     id: dogResult.id,
@@ -49,6 +46,20 @@ router.get("/:id", (req, res) => {
                     shelter: dogResult.contact
                 }
                 console.log(dog);
+                return res.status(200).json({dog: dog});
+            })
+            .catch(err => {
+                dog = {
+                    id: dogResult.id,
+                    photo: dogPhoto,
+                    name: dogResult.name,
+                    breed: dogBreed,
+                    description: dogResult.description,
+                    age: dogResult.age,
+                    gender: dogResult.gender,
+                    size: dogResult.size,
+                    shelter: dogResult.contact
+                }
                 return res.status(200).json({dog: dog});
             })
     })

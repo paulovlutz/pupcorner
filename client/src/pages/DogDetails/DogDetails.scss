@@ -87,8 +87,16 @@
         margin-left: 95px;
     }
 
+    &__shelterText {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
     &__shelter {
         font-family: "Muli-Black";
+        margin-bottom: 20px;
     }
 
     &__mapCol {
