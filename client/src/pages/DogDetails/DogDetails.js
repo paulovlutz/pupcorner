@@ -5,13 +5,15 @@ import axios from "axios";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import MapContainer from "../../components/MapContainer/MapContainer"
 
 const backend_url = "http://localhost:8080";
 
 class DogDetail extends Component {
 
     state = {
-        dog: {}
+        dog: {},
+        shelterLocation: {}
     }
 
     componentDidMount() {
@@ -22,6 +24,20 @@ class DogDetail extends Component {
                 this.setState({
                     dog: result.data.dog
                 })
+                let shelterPostalCode = result.data.dog.shelter.address.postcode;
+                console.log(shelterPostalCode);
+
+                axios
+                    .get(`https://maps.googleapis.com/maps/api/geocode/json?address=${shelterPostalCode}&key=AIzaSyBfHRxtq9XXnSARJ3G0l-_3zeA4h5sFbOo`)
+                    .then(result => {
+                        console.log(result.data.results[0].geometry.location);
+                        this.setState({
+                            shelterLocation: result.data.results[0].geometry.location
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
             })
             .catch(err => {
                 console.log(err);
@@ -34,7 +50,7 @@ class DogDetail extends Component {
         return(
             <>
                 <Header />
-                {this.state && this.state.dog && this.state.dog.name && 
+                {this.state && this.state.dog && this.state.dog.name && this.state.shelterLocation.lat &&
                     <section className="dogDetails">
                     <Container className="dogDetails__container">
                         <Row>
@@ -59,6 +75,14 @@ class DogDetail extends Component {
                                 <p><span className="dogDetails__info-bold">Temperament: </span>{dogInfo.temperament}</p>
                                 <p><span className="dogDetails__info-bold">Life Expectancy: </span>{dogInfo.life_expectancy}</p>
                                 <p><span className="dogDetails__info-bold">Weight: </span>{dogInfo.weight}</p>
+                            </Col>
+                        </Row>
+                        <Row className="dogDetails__shelterRow">
+                            <Col lg="4">
+                                <h2 className="dogDetails__shelter">Shelter Location</h2>
+                            </Col>
+                            <Col lg="8" className="dogDetails__mapCol">
+                                <MapContainer className="dogDetails__map" shelterLocation={this.state.shelterLocation} />
                             </Col>
                         </Row>
                     </Container>

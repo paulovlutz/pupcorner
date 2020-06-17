@@ -81,4 +81,18 @@
     &__container {
         margin-left: 50px;
     }
+
+    &__shelterRow {
+        margin-top: 50px;
+        margin-left: 95px;
+    }
+
+    &__shelter {
+        font-family: "Muli-Black";
+    }
+
+    &__mapCol {
+        display: flex;
+        justify-content: flex-end;
+    }
 }

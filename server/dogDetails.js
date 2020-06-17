@@ -10,7 +10,7 @@ const Breed = require("./models/breed");
 const client = new petfinder.Client({apiKey: "d88tWoXDhGqJnRvgYCRrwY0Drudlpeyvinjm1IG6wiGUITDll6", secret: "GteFtzSAfebyEsbmhGLiApKG7jk9EF9E80KaDLAC"});
 
 router.get("/:id", (req, res) => {
-    client.authenticate();
+    // client.authenticate();
     // pegar o id do dog pelo api
     let dog = {};
     let dogId = req.params.id;
@@ -45,7 +45,8 @@ router.get("/:id", (req, res) => {
                     trainability: dogAttributeDB.trainability,
                     temperament: dogAttributeDB.temperament,
                     life_expectancy: dogAttributeDB.life_expectancy,
-                    weight: dogAttributeDB.weight
+                    weight: dogAttributeDB.weight,
+                    shelter: dogResult.contact
                 }
                 console.log(dog);
                 return res.status(200).json({dog: dog});

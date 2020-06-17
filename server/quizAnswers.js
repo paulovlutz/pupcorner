@@ -16,7 +16,7 @@ let characteristics_db = ["trainability", "shedding", "grooming", "energy", "tem
 
 router.post("/", (req, res) => {
     let answerBody = req.body;
-    client.authenticate();
+    // client.authenticate();
 
     let searchParams = {
         type: "Dog",
