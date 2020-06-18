@@ -1,20 +1,25 @@
 import React, { Component } from "react";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import "./MapContainer.scss";
 
 export class MapContainer extends Component {
 
     state = {
         showingInfoWindow: false,
         activeMarker: {},
-        selectedPlace: {},
+        selectedPlace: {}
     };
 
-    onMarkerClick = (props, marker, e) =>
-    this.setState({
-        selectedPlace: props,
-        activeMarker: marker,
-        showingInfoWindow: true
-    });
+    onMarkerClick = (props, marker, e) => {
+        console.log('PROPS', props);
+        console.log('MARKER', marker);
+        console.log('SHELTER', this.props.shelterLocation);
+        this.setState({
+            selectedPlace: props,
+            activeMarker: marker,
+            showingInfoWindow: true
+        });
+    }
 
     onMapClicked = (props) => {
         if (this.state.showingInfoWindow) {
@@ -42,14 +47,20 @@ export class MapContainer extends Component {
                 zoom={12}
                 onClick={this.onMapClicked} >
 
-                <Marker onClick={this.onMarkerClick}
-                    name={'Current location'} />
+                <Marker 
+                    onClick={this.onMarkerClick}
+                    name={'Current location'} 
+                />
 
                 <InfoWindow
                     marker={this.state.activeMarker}
                     visible={this.state.showingInfoWindow}>
                     <div>
-                        <h1>Shelter</h1>
+                        <p className="shelter__marker">{this.props.shelterInfo.address.address1}</p>
+                        <p className="shelter__marker">{this.props.shelterInfo.email}</p>
+                        <p className="shelter__marker">{this.props.shelterInfo.phone}</p>
+                        <p className="shelter__marker">{this.props.shelterInfo.address.city}, <span className="shelter__marker">{this.props.shelterInfo.address.state}</span></p>
+                        <p className="shelter__marker">{this.props.shelterInfo.address.postcode}</p>
                     </div>
                 </InfoWindow>
 

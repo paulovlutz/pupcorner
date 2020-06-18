@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from "react-router-dom";
 import Col from 'react-bootstrap/Col';
 import Row from "react-bootstrap/Row";
+import Interweave from "interweave";
 
 class CardDogFound extends Component {
 
@@ -15,7 +16,7 @@ class CardDogFound extends Component {
         return(
             <>
                 {(this.props.dogs || []).map((dog, _) => {
-                    let profilePhoto = dog.photos[0].large;
+                    let profilePhoto = (dog.photos[0] && dog.photos[0].large);
 
                     return (
                         <Col lg="auto">
@@ -28,7 +29,12 @@ class CardDogFound extends Component {
                                         <Card.Img className="dogfound__card-image" variant="top" src={profilePhoto} />
                                         <Card.Body>
                                             <Row className="justify-content-md-center">
-                                                <Card.Title className="dogfound__card-title">{dog.name.substring(0, 15)}</Card.Title>
+                                                { (dog.name.length >= 20) &&
+                                                    <Card.Title className="dogfound__card-title"><Interweave content={dog.name.substring(0, 15) + "..."} /></Card.Title>
+                                                }
+                                                { (dog.name.length < 20) &&
+                                                    <Card.Title className="dogfound__card-title"><Interweave content={dog.name}/></Card.Title>
+                                                }
                                             </Row>
                                             <Row className="justify-content-md-center">
                                                 <Card.Text>

@@ -13,7 +13,8 @@ class DogDetail extends Component {
 
     state = {
         dog: {},
-        shelterLocation: {}
+        shelterLocation: {},
+        shelterInfo: {}
     }
 
     componentDidMount() {
@@ -23,7 +24,8 @@ class DogDetail extends Component {
                 console.log("CADE CATINA");
                 console.log(result.data);
                 this.setState({
-                    dog: result.data.dog
+                    dog: result.data.dog,
+                    shelterInfo: result.data.dog.shelter
                 })
                 let shelterAddress = result.data.dog.shelter.address;
                 console.log('SHELTER ADDRESS ', shelterAddress);
@@ -95,7 +97,7 @@ class DogDetail extends Component {
                                 <h5>{dogInfo.shelter.phone}</h5>
                             </Col>
                             <Col lg="8" className="dogDetails__mapCol">
-                                <MapContainer className="dogDetails__map" shelterLocation={this.state.shelterLocation} />
+                                <MapContainer className="dogDetails__map" shelterLocation={this.state.shelterLocation} shelterInfo={this.state.shelterInfo} />
                             </Col>
                         </Row>
                     </Container>

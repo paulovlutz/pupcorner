@@ -1,5 +1,6 @@
 [
-    { 
+    {
+        "onlyOneAnswer": true,
         "id": "children",
         "question": "Do you have kids at home?", 
         "answers": [
@@ -13,7 +14,8 @@
             }
         ]
     },
-    { 
+    {
+        "onlyOneAnswer": true,
         "id": "dogs",
         "question": "Do you have dogs at home?", 
         "answers": [
@@ -27,7 +29,8 @@
             }
         ]
     },
-    { 
+    {
+        "onlyOneAnswer": true,
         "id": "cats",
         "question": "Do you have cats at home?", 
         "answers": [
@@ -41,7 +44,8 @@
             }
         ]
     },
-    { 
+    {
+        "onlyOneAnswer": true,
         "id": "house_trained",
         "question": "How important is house training?", 
         "answers": [
@@ -56,6 +60,7 @@
         ]
     },
     { 
+        "onlyOneAnswer": false,
         "id": "size",
         "question": "What’s the size of your next pawfect friend?", 
         "answers": [
@@ -78,6 +83,7 @@
         ]
     },
     { 
+        "onlyOneAnswer": false,
         "id": "age",
         "question": "How about his/her age?", 
         "answers": [
@@ -100,6 +106,7 @@
         ]
     },
     { 
+        "onlyOneAnswer": false,
         "id": "gender",
         "question": "How about the gender?", 
         "answers": [
@@ -114,6 +121,7 @@
         ]
     },
     { 
+        "onlyOneAnswer": false,
         "id": "trainability",
         "question": "What level of trainability are you looking for in a dog?", 
         "answers": [
@@ -140,6 +148,7 @@
         ]
     },
     { 
+        "onlyOneAnswer": false,
         "id": "shedding",
         "question": "What is your tolerance for shedding?", 
         "answers": [
@@ -166,6 +175,7 @@
         ]
     },
     { 
+        "onlyOneAnswer": false,
         "id": "grooming",
         "question": "How much time do you want to spend grooming your dog?", 
         "answers": [
@@ -192,6 +202,7 @@
         ]
     },
     { 
+        "onlyOneAnswer": false,
         "id": "energy",
         "question": "Are you looking for a lazy or an active friend?", 
         "answers": [
@@ -218,6 +229,7 @@
         ]
     },
     { 
+        "onlyOneAnswer": false,
         "id": "temperament",
         "question": "Are you looking for a more outgoing or a wary friend?", 
         "answers": [

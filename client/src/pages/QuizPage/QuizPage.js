@@ -21,8 +21,9 @@ class QuizPage extends Component {
         selectedAnswers: {}
     }
 
-    handleClick = (answerId, questionId) => {
+    handleClick = (onlyOneAnswer, answerId, questionId) => {
         let answersArray = this.state.selectedAnswers[questionId];
+
         console.log(answerId, questionId);
         let clickedAnswers = [];
         if (answersArray === undefined) {
@@ -31,7 +32,11 @@ class QuizPage extends Component {
             answersArray.splice(answersArray.indexOf(answerId), 1);
             clickedAnswers = answersArray;
         } else {
-            clickedAnswers = [...answersArray, answerId];
+            if (onlyOneAnswer === true) {
+                clickedAnswers = [answerId];
+            } else {
+                clickedAnswers = [...answersArray, answerId];
+            }
         }
         this.setState({
             selectedAnswers: {...this.state.selectedAnswers, [questionId]: clickedAnswers}
@@ -42,7 +47,6 @@ class QuizPage extends Component {
 
     handleSubmitAnswers = event => {
         event.preventDefault();
-        console.log("ABACATE FORA");
 
         axios
             .post(backend_url + "/quizAnswers", this.state.selectedAnswers)
@@ -89,7 +93,7 @@ class QuizPage extends Component {
                                                         )}
                                                     </Col>
                                                         
-                                                    <Col><CardQuizPage questionId={question.id} selectedAnswers={this.state.selectedAnswers[question.id]} answers={question.answers} handleActiveClass={this.handleClick} /></Col>
+                                                    <Col><CardQuizPage onlyOneAnswer={question.onlyOneAnswer} questionId={question.id} selectedAnswers={this.state.selectedAnswers[question.id]} answers={question.answers} handleActiveClass={this.handleClick} /></Col>
 
                                                     <Col lg="1">
                                                         {steps.indexOf(step) < steps.length - 1 && (
