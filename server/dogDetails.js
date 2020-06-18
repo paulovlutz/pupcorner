@@ -18,49 +18,59 @@ router.get("/:id", (req, res) => {
     client.animal.show(dogId)
     .then(result => {
         let dogResult = result.data.animal;
+        let shelterID = dogResult.organization_id;
         let dogBreed = dogResult.breeds.primary;
-        let dogPhoto = dogResult.photos[0].large;
+        let dogPhoto = (dogResult.photos[0] && dogResult.photos[0].large);
 
-        Breed.where("breed", "like", "%" + dogBreed + "%")
-            .fetch()
+        client.organization.show(shelterID)
             .then(result => {
-                let dogAttributeDB = result.attributes;
-                console.log("CADE CATINA");
+                console.log("SHELTER ID", result.data.organization);
 
-                dog = {
-                    id: dogResult.id,
-                    photo: dogPhoto,
-                    name: dogResult.name,
-                    breed: dogBreed,
-                    description: dogResult.description,
-                    age: dogResult.age,
-                    gender: dogResult.gender,
-                    size: dogResult.size,
-                    shedding: dogAttributeDB.shedding,
-                    grooming: dogAttributeDB.grooming,
-                    energy: dogAttributeDB.energy,
-                    trainability: dogAttributeDB.trainability,
-                    temperament: dogAttributeDB.temperament,
-                    life_expectancy: dogAttributeDB.life_expectancy,
-                    weight: dogAttributeDB.weight,
-                    shelter: dogResult.contact
-                }
-                console.log(dog);
-                return res.status(200).json({dog: dog});
+                let organizationDetails = result.data.organization;
+
+                Breed.where("breed", "like", "%" + dogBreed + "%")
+                .fetch()
+                .then(result => {
+                    let dogAttributeDB = result.attributes;
+    
+                    dog = {
+                        id: dogResult.id,
+                        photo: dogPhoto,
+                        name: dogResult.name,
+                        breed: dogBreed,
+                        description: dogResult.description,
+                        age: dogResult.age,
+                        gender: dogResult.gender,
+                        size: dogResult.size,
+                        shedding: dogAttributeDB.shedding,
+                        grooming: dogAttributeDB.grooming,
+                        energy: dogAttributeDB.energy,
+                        trainability: dogAttributeDB.trainability,
+                        temperament: dogAttributeDB.temperament,
+                        life_expectancy: dogAttributeDB.life_expectancy,
+                        weight: dogAttributeDB.weight,
+                        shelter: organizationDetails
+                    }
+                    console.log(dog);
+                    return res.status(200).json({dog: dog});
+                })
+                .catch(err => {
+                    dog = {
+                        id: dogResult.id,
+                        photo: dogPhoto,
+                        name: dogResult.name,
+                        breed: dogBreed,
+                        description: dogResult.description,
+                        age: dogResult.age,
+                        gender: dogResult.gender,
+                        size: dogResult.size,
+                        shelter: organizationDetails
+                    }
+                    return res.status(200).json({dog: dog});
+                })
             })
             .catch(err => {
-                dog = {
-                    id: dogResult.id,
-                    photo: dogPhoto,
-                    name: dogResult.name,
-                    breed: dogBreed,
-                    description: dogResult.description,
-                    age: dogResult.age,
-                    gender: dogResult.gender,
-                    size: dogResult.size,
-                    shelter: dogResult.contact
-                }
-                return res.status(200).json({dog: dog});
+                console.log(err);
             })
     })
     .catch(err => {

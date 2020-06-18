@@ -21,7 +21,7 @@ class HomePage extends Component {
                 <Header />
                 <section className="dogsfound">
                     <div className="dogsfound__closest">
-                        <h1 className="dogsfound__title">Best Closest Matches</h1>
+                        <h1 className="dogsfound__title">Best Close Matches</h1>
                         <Row className="justify-content-lg-center">
                             <CardDogFound dogs={this.props.location.state.dogs} />
                         </Row>

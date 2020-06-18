@@ -85,14 +85,14 @@
 
     &__shelterRow {
         margin-top: 50px;
-        margin-left: 95px;
+        margin-left: 0;
     }
 
     &__shelterText {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        text-align: center;
+        align-items: center;
     }
 
     &__shelter {
@@ -103,5 +103,28 @@
     &__mapCol {
         display: flex;
         justify-content: flex-end;
+    }
+
+    &__socialIcons {
+        display: flex;
+        justify-content: center;
+        font-size: 2rem;
+
+        &-facebook {
+            color: $white;
+            margin-right: 20px;
+
+            &:hover {
+                color: $yellow;
+            }
+        }
+
+        &-instagram {
+            color: $white;
+
+            &:hover {
+                color: $yellow;
+            }
+        }
     }
 }

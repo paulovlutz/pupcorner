@@ -56,11 +56,11 @@ export class MapContainer extends Component {
                     marker={this.state.activeMarker}
                     visible={this.state.showingInfoWindow}>
                     <div>
+                        <p className="shelter__marker">{this.props.shelterInfo.name}</p>
                         <p className="shelter__marker">{this.props.shelterInfo.address.address1}</p>
                         <p className="shelter__marker">{this.props.shelterInfo.email}</p>
                         <p className="shelter__marker">{this.props.shelterInfo.phone}</p>
                         <p className="shelter__marker">{this.props.shelterInfo.address.city}, <span className="shelter__marker">{this.props.shelterInfo.address.state}</span></p>
-                        <p className="shelter__marker">{this.props.shelterInfo.address.postcode}</p>
                     </div>
                 </InfoWindow>
 

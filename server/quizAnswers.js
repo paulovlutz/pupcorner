@@ -21,7 +21,8 @@ router.post("/", (req, res) => {
     let searchParams = {
         type: "Dog",
         location: "Toronto, Ontario, Canada",
-        distance: 50,
+        distance: 60,
+        limit: 100
     }
 
     // Filter Dogs
@@ -120,12 +121,10 @@ router.post("/", (req, res) => {
 
         // Sort dogs
         let dogsSorted = Object.keys(dogRanking).sort(function(a,b){return dogRanking[b]-dogRanking[a]});
-        console.log(dogsSorted);
         let dogsArray = [];
 
         // pega os ids pra achars os dogjohnson
         for (let c = 0; c < dogsSorted.length; c++) {
-            console.log(dogsSorted[c]);
 
             let singleDogFound = dogsFound.find(dog => {
                 return dog.id == dogsSorted[c];
