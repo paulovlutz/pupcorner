@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage/HomePage';
 import QuizPage from './pages/QuizPage/QuizPage';
 import DogsFound from './pages/DogsFound/DogsFound';
 import DogDetails from './pages/DogDetails/DogDetails';
+import About from './pages/About/About';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/quiz" component={QuizPage} />
         <Route path="/dogsfound" component={DogsFound} />
         <Route path="/dogdetails/:id" component={DogDetails} />
+        <Route path="/about" component={About} />
       </Switch>
     </BrowserRouter>
   );

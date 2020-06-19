@@ -1,0 +1,64 @@
+@import '../../styles/mixins';
+
+.about {
+    position: fixed;
+    min-height: 100vh;
+    min-width: 100vw;
+    padding-top: 100px;
+    color: $white;
+    font-family: "Muli-Regular";
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &-title {
+            font-family: "Muli-Black";
+            letter-spacing: 10px;
+        }
+
+        &-slogan {
+            margin-top: 10px;
+            font-family: "Muli-Bold";
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+        }
+
+        &-description {
+            margin-top: 80px;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            width: 60%;
+            text-align: center;
+        }
+
+        &-brainstation {
+            font-family: "Muli-Bold";
+            text-transform: none;
+            color: $white;
+
+            &:hover {
+                text-transform: none;
+                text-decoration: none;
+                color: $white;
+            }
+        }
+
+        &-icon {
+            margin: 0 10px;
+        }
+    }
+
+    &__footer {
+        font-family: "Muli-Bold";
+        position: fixed;
+        bottom: 50px;
+        color: $white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        letter-spacing: 5px;
+    }
+}

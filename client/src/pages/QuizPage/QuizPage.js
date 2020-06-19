@@ -3,7 +3,7 @@ import './QuizPage.scss';
 import "../../components/ButtonQuiz/ButtonQuiz.scss";
 import Header from '../../components/Header/Header';
 import CardQuizPage from '../../components/CardQuizPage/CardQuizPage';
-import AnimatedSquareBackground from '../../components/AnimatedSquareBackground/AnimatedSquareBackground'
+import AnimatedSquareBackground from '../../components/AnimatedSquareBackground/AnimatedSquareBackground';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,7 +11,6 @@ import { Wizard, Steps, Step } from 'react-albus';
 import quizQuestions from "./quizQuestions.json";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
 
 const backend_url = "http://localhost:8080";
 const googleAPI = "AIzaSyBfHRxtq9XXnSARJ3G0l-_3zeA4h5sFbOo";
@@ -119,7 +118,7 @@ class QuizPage extends Component {
         return (
             <>
                 <Header />
-                <section className="quiz">
+                <section className="quiz animated-background">
                     <Wizard>
                         <Steps>
                             {this.questions.map((question, _) => {

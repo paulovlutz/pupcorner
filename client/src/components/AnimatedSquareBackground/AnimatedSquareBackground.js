@@ -3,7 +3,7 @@ import './AnimatedSquareBackground.scss';
 
 const AnimatedSquareBackground = () => {
     return (
-        <ul className="quiz__background">
+        <ul className="animated-background__background">
             <li></li>
             <li></li>
             <li></li>

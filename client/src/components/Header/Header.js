@@ -23,7 +23,7 @@ const Navigation = () => (
                     </Link>
                 </Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
-                    <Link to="/quiz">
+                    <Link to="/about">
                         <Navbar.Text>
                             <span className="header__navbar-about">About Us</span>
                         </Navbar.Text>
