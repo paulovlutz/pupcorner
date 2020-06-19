@@ -14,6 +14,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 
 const backend_url = "http://localhost:8080";
+const googleAPI = "AIzaSyBfHRxtq9XXnSARJ3G0l-_3zeA4h5sFbOo";
 
 class QuizPage extends Component {
 
@@ -49,16 +50,66 @@ class QuizPage extends Component {
         event.preventDefault();
 
         axios
-            .post(backend_url + "/quizAnswers", this.state.selectedAnswers)
-            .then(result => {
-                this.props.history.push({
-                    pathname: '/dogsfound',
-                    state: { dogs: result.data.dogsFound }
+        .post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${googleAPI}`)
+        .then(result => {
+            console.log("API LOCATION ", result.data.location);
+            let userLat = result.data.location.lat;
+            let userLng = result.data.location.lng;
+            
+            console.log("USER LAT ", userLat);
+            console.log("USER LONG ", userLng);
+
+            axios
+                .get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${userLat},${userLng}&key=${googleAPI}`)
+                .then(result => {
+                    let listOfAddress = result.data.results[0].address_components;
+                    console.log("TRANSFORM LOCATION TO ADDRESS", result.data);
+                    console.log("ADDRESS 2", listOfAddress[2].types.includes("locality"));
+                    
+                    let userCity = result.data.results[0].address_components.find(addressType => {
+                        return addressType.types.includes("locality");
+                    })
+                    userCity = userCity.long_name;
+                    console.log("USER CITY: ", userCity);
+
+                    let userState = result.data.results[0].address_components.find(addressType => {
+                        return addressType.types.includes("administrative_area_level_1");
+                    })
+                    userState = userState.long_name;
+                    console.log("USER STATE: ", userState);
+
+                    let userCountry = result.data.results[0].address_components.find(addressType => {
+                        return addressType.types.includes("country");
+                    })
+                    userCountry = userCountry.long_name;
+                    console.log("USER COUNTRY: ", userCountry);
+
+                    let userAddress = {city: userCity, state: userState, country: userCountry};
+
+                    console.log("USER ADDRESS STATE: ", userAddress);
+
+                    let answerAndAddress = {answers: this.state.selectedAnswers, address: userAddress};
+
+                    axios
+                        .post(backend_url + "/quizAnswers", answerAndAddress)
+                        .then(result => {
+                            this.props.history.push({
+                                pathname: '/dogsfound',
+                                state: { dogs: result.data.dogsFound }
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
                 })
-            })
-            .catch(err => {
-                console.log(err);
-            })
+                .catch(err => {
+                    console.log(err);
+                })
+
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     questions = quizQuestions;

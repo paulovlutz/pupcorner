@@ -75,6 +75,7 @@ router.get("/:id", (req, res) => {
     })
     .catch(err => {
         console.log("Sorry, dog not found.");
+        console.log(err);
     });
     // construir proprio objeto pra incluir os dois
     // mandar informaçao pro front-end

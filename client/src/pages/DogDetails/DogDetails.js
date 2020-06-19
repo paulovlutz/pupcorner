@@ -31,7 +31,7 @@ class DogDetail extends Component {
                 console.log('SHELTER ADDRESS ', shelterAddress);
 
                 let shelterPostalCode = result.data.dog.shelter.address.postcode;
-                console.log(shelterPostalCode);
+                console.log("SHELTER POSTAL CODE ", shelterPostalCode);
 
                 axios
                     .get(`https://maps.googleapis.com/maps/api/geocode/json?address=${shelterPostalCode}&key=AIzaSyBfHRxtq9XXnSARJ3G0l-_3zeA4h5sFbOo`)

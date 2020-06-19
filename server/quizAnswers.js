@@ -15,15 +15,21 @@ let characteristics_api = ["size", "age", "house_trained", "gender"];
 let characteristics_db = ["trainability", "shedding", "grooming", "energy", "temperament"];
 
 router.post("/", (req, res) => {
-    let answerBody = req.body;
+    let answerBody = req.body.answers;
+    let addressBody = req.body.address;
     // client.authenticate();
+
+    console.log("ANSWER BODY ", answerBody);
+    console.log("ADDRESS BODY ", addressBody);
 
     let searchParams = {
         type: "Dog",
-        location: "Toronto, Ontario, Canada",
+        location: `${addressBody.city}, ${addressBody.state}, ${addressBody.country}`,
         distance: 60,
         limit: 100
     }
+
+    console.log("SEARCH PARAMS: ", searchParams)
 
     // Filter Dogs
 
