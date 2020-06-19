@@ -81,6 +81,18 @@ router.post("/", (req, res) => {
 
             let dogFoundPrimaryBreed = dogsFound[i].breeds.primary;
 
+            dogOtherBreeds = {
+                "Pit Bull Terrier": "American Staffordshire Terrier",
+                "English Bulldog": "Bulldog",
+                "Black Labrador Retriever": "Labrador Retriever",
+                "Jack Russell Terrier": "Russell Terrier",
+                "Australian Cattle Dog / Blue Heeler": "Australian Cattle Dog"
+            }
+
+            if (dogOtherBreeds[dogFoundPrimaryBreed] !== undefined) {
+                dogFoundPrimaryBreed = dogOtherBreeds[dogFoundPrimaryBreed]
+            }
+
             Breed.where("breed", "like", "%" + dogFoundPrimaryBreed + "%")
             .fetch()
             .then(breed => {                

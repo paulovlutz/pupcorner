@@ -28,6 +28,18 @@ router.get("/:id", (req, res) => {
 
                 let organizationDetails = result.data.organization;
 
+                dogOtherBreeds = {
+                    "Pit Bull Terrier": "American Staffordshire Terrier",
+                    "English Bulldog": "Bulldog",
+                    "Black Labrador Retriever": "Labrador Retriever",
+                    "Jack Russell Terrier": "Russell Terrier",
+                    "Australian Cattle Dog / Blue Heeler": "Australian Cattle Dog"
+                }
+    
+                if (dogOtherBreeds[dogBreed] !== undefined) {
+                    dogBreed = dogOtherBreeds[dogBreed]
+                }
+
                 Breed.where("breed", "like", "%" + dogBreed + "%")
                 .fetch()
                 .then(result => {

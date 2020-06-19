@@ -16,18 +16,22 @@ const Navigation = () => (
     <>
         <Navbar sticky="top">
                 <Navbar.Brand>
-                    <Link to="/">
-                        <Navbar.Text>
-                            <span className="header__navbar-brand"><img className="header__logo" src={logoSmall} alt="pupcorner logo" />Pupcorner</span>
-                        </Navbar.Text>
-                    </Link>
+                    <div class="link-wrapper">
+                        <Link to="/">
+                            <Navbar.Text>
+                            <img className="header__logo" src={logoSmall} alt="pupcorner logo" /><span className="header__navbar-brand link hover">Pupcorner</span>
+                            </Navbar.Text>
+                        </Link>
+                    </div>
                 </Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
-                    <Link to="/about">
-                        <Navbar.Text>
-                            <span className="header__navbar-about">About Us</span>
-                        </Navbar.Text>
-                    </Link>
+                    <div class="link-wrapper">
+                        <Link to="/about">
+                            <Navbar.Text>
+                                <span className="header__navbar-about link hover">About Us</span>
+                            </Navbar.Text>
+                        </Link>
+                    </div>
                 </Navbar.Collapse>    
         </Navbar> 
     </>
