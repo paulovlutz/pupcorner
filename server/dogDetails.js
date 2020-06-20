@@ -17,10 +17,17 @@ router.get("/:id", (req, res) => {
     // pegar o breed do cachorro e as caracteristicas
     client.animal.show(dogId)
     .then(result => {
+        console.log("CADE AS FOTICA :", result.data.animal.photos)
         let dogResult = result.data.animal;
         let shelterID = dogResult.organization_id;
         let dogBreed = dogResult.breeds.primary;
-        let dogPhoto = (dogResult.photos[0] && dogResult.photos[0].large);
+
+        let dogAllPhotos = dogResult.photos.map((photo, _) => {
+            return {original: photo.large, originalClass: "dogDetails__image-image"};
+        })
+        console.log("DOG PHOTOS!!!!!!!!! ", dogAllPhotos);
+
+        // let dogPhoto = (dogResult.photos && dogResult.photos);
 
         client.organization.show(shelterID)
             .then(result => {
@@ -47,7 +54,7 @@ router.get("/:id", (req, res) => {
     
                     dog = {
                         id: dogResult.id,
-                        photo: dogPhoto,
+                        photos: dogAllPhotos,
                         name: dogResult.name,
                         breed: dogBreed,
                         description: dogResult.description,

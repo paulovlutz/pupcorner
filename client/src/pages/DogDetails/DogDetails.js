@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import MapContainer from "../../components/MapContainer/MapContainer";
+import ImageGallery from 'react-image-gallery';
 
 const backend_url = "http://localhost:8080";
 
@@ -64,7 +65,7 @@ class DogDetail extends Component {
                                 <a onClick={this.props.history.goBack} className="dogDetails__arrow left"></a>
                             </Col>
                             <Col lg="7" className="dogDetails__image">
-                                <img src={dogInfo.photo} className="dogDetails__image-image" alt="dog profile picture"></img>
+                                <ImageGallery items={dogInfo.photos} alt="dog profile picture" showThumbnails={false} showFullscreenButton={false} showPlayButton={false} />
                             </Col>
                             <Col lg="4" className="dogDetails__info">
                                 <h1 className="dogDetails__name">{dogInfo.name}</h1>

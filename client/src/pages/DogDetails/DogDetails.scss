@@ -1,4 +1,5 @@
 @import '../../styles/mixins';
+@import "~react-image-gallery/styles/scss/image-gallery.scss";
 
 .dogDetails {
     background: $darker-blue;
@@ -127,4 +128,18 @@
             }
         }
     }
+}
+
+.image-gallery-slide img {
+    width: 100%;
+    height: 800px;
+    object-fit: cover !important;
+}
+
+.image-gallery {
+    width: 100%;
+}
+
+.image-gallery-left-nav .image-gallery-svg, .image-gallery-right-nav .image-gallery-svg {
+    height: 60px;
 }
