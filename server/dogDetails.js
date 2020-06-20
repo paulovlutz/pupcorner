@@ -15,6 +15,7 @@ router.get("/:id", (req, res) => {
     let dog = {};
     let dogId = req.params.id;
     // pegar o breed do cachorro e as caracteristicas
+
     client.animal.show(dogId)
     .then(result => {
         console.log("CADE AS FOTICA :", result.data.animal.photos)
@@ -76,7 +77,7 @@ router.get("/:id", (req, res) => {
                 .catch(err => {
                     dog = {
                         id: dogResult.id,
-                        photo: dogPhoto,
+                        photos: dogAllPhotos,
                         name: dogResult.name,
                         breed: dogBreed,
                         description: dogResult.description,
@@ -90,6 +91,9 @@ router.get("/:id", (req, res) => {
             })
             .catch(err => {
                 console.log(err);
+                return res.status(404).json({
+                    "message": "Sorry, dog not found."
+                });
             })
     })
     .catch(err => {

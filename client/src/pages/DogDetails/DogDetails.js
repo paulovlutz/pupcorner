@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import MapContainer from "../../components/MapContainer/MapContainer";
 import ImageGallery from 'react-image-gallery';
+import Loader from "../../components/Loader/Loader";
 
 const backend_url = "http://localhost:8080";
 
@@ -16,10 +17,12 @@ class DogDetail extends Component {
         dog: {},
         shelterLocation: {},
         shelterInfo: {},
+        loading: true
     }
 
     componentDidMount() {
-        window.scrollTo(0, 0)
+        window.scrollTo(0, 0);
+
         axios
             .get(backend_url + "/dogdetails/" + this.props.match.params.id)
             .then(result => {
@@ -34,17 +37,14 @@ class DogDetail extends Component {
                 let shelterPostalCode = result.data.dog.shelter.address.postcode;
                 console.log("SHELTER POSTAL CODE ", shelterPostalCode);
 
-                axios
-                    .get(`https://maps.googleapis.com/maps/api/geocode/json?address=${shelterPostalCode}&key=AIzaSyBfHRxtq9XXnSARJ3G0l-_3zeA4h5sFbOo`)
-                    .then(result => {
-                        console.log(result.data.results[0].geometry.location);
-                        this.setState({
-                            shelterLocation: result.data.results[0].geometry.location
-                        })
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    })
+                return (axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${shelterPostalCode}&key=AIzaSyBfHRxtq9XXnSARJ3G0l-_3zeA4h5sFbOo`))
+            })    
+            .then(result => {
+                console.log(result.data.results[0].geometry.location);
+                this.setState({
+                    shelterLocation: result.data.results[0].geometry.location,
+                    loading: false
+                })
             })
             .catch(err => {
                 console.log(err);
@@ -58,7 +58,9 @@ class DogDetail extends Component {
             <>
                 <Header />
                     <section className="dogDetails">
-                    {this.state && this.state.dog && this.state.dog.name && this.state.shelterLocation.lat &&
+                    {this.state.loading === true &&
+                    <Loader /> }
+                    {this.state.loading === false &&
                     <Container className="dogDetails__container">
                         <Row>
                             <Col lg="1">

@@ -58,53 +58,51 @@ class QuizPage extends Component {
             console.log("USER LAT ", userLat);
             console.log("USER LONG ", userLng);
 
-            axios
-                .get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${userLat},${userLng}&key=${googleAPI}`)
-                .then(result => {
-                    let listOfAddress = result.data.results[0].address_components;
-                    console.log("TRANSFORM LOCATION TO ADDRESS", result.data);
-                    console.log("ADDRESS 2", listOfAddress[2].types.includes("locality"));
-                    
-                    let userCity = result.data.results[0].address_components.find(addressType => {
-                        return addressType.types.includes("locality");
-                    })
-                    userCity = userCity.long_name;
-                    console.log("USER CITY: ", userCity);
+            return (axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${userLat},${userLng}&key=${googleAPI}`))
+        })
+        .catch(err => {
+            console.log(err);
+            let userLat = 43.6532;
+            let userLng = 79.3832;
 
-                    let userState = result.data.results[0].address_components.find(addressType => {
-                        return addressType.types.includes("administrative_area_level_1");
-                    })
-                    userState = userState.long_name;
-                    console.log("USER STATE: ", userState);
+            return (axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${userLat},${userLng}&key=${googleAPI}`))
+        })
+        .then((result) => {
+            let listOfAddress = result.data.results[0].address_components;
+            console.log("TRANSFORM LOCATION TO ADDRESS", result.data);
+            console.log("ADDRESS 2", listOfAddress[2].types.includes("locality"));
+            
+            let userCity = result.data.results[0].address_components.find(addressType => {
+                return addressType.types.includes("locality");
+            })
+            userCity = userCity.long_name;
+            console.log("USER CITY: ", userCity);
 
-                    let userCountry = result.data.results[0].address_components.find(addressType => {
-                        return addressType.types.includes("country");
-                    })
-                    userCountry = userCountry.long_name;
-                    console.log("USER COUNTRY: ", userCountry);
+            let userState = result.data.results[0].address_components.find(addressType => {
+                return addressType.types.includes("administrative_area_level_1");
+            })
+            userState = userState.long_name;
+            console.log("USER STATE: ", userState);
 
-                    let userAddress = {city: userCity, state: userState, country: userCountry};
+            let userCountry = result.data.results[0].address_components.find(addressType => {
+                return addressType.types.includes("country");
+            })
+            userCountry = userCountry.long_name;
+            console.log("USER COUNTRY: ", userCountry);
 
-                    console.log("USER ADDRESS STATE: ", userAddress);
+            let userAddress = {city: userCity, state: userState, country: userCountry};
 
-                    let answerAndAddress = {answers: this.state.selectedAnswers, address: userAddress};
+            console.log("USER ADDRESS STATE: ", userAddress);
 
-                    axios
-                        .post(backend_url + "/quizAnswers", answerAndAddress)
-                        .then(result => {
-                            this.props.history.push({
-                                pathname: '/dogsfound',
-                                state: { dogs: result.data.dogsFound }
-                            })
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        })
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+            let answerAndAddress = {answers: this.state.selectedAnswers, address: userAddress};
 
+            return (axios.post(backend_url + "/quizAnswers", answerAndAddress))
+        })
+        .then(result => {
+            this.props.history.push({
+                pathname: '/dogsfound',
+                state: { dogs: result.data.dogsFound }
+            })
         })
         .catch(err => {
             console.log(err);
