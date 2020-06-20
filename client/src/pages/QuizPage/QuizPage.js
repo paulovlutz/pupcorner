@@ -144,7 +144,7 @@ class QuizPage extends Component {
                                                     <Col><CardQuizPage onlyOneAnswer={question.onlyOneAnswer} questionId={question.id} selectedAnswers={this.state.selectedAnswers[question.id]} answers={question.answers} handleActiveClass={this.handleClick} /></Col>
 
                                                     <Col lg="1">
-                                                        {steps.indexOf(step) < steps.length - 1 && (
+                                                        {(steps.indexOf(step) < steps.length - 1) && (this.state.selectedAnswers[question.id] !== undefined && this.state.selectedAnswers[question.id].length !== 0) && (
                                                             <a className="quiz__cards-arrow right" onClick={next}></a>
                                                         )}                                                            
                                                     </Col>
