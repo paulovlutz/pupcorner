@@ -40,7 +40,7 @@ class DogDetail extends Component {
                 return (axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${shelterPostalCode}&key=AIzaSyBfHRxtq9XXnSARJ3G0l-_3zeA4h5sFbOo`))
             })    
             .then(result => {
-                console.log(result.data.results[0].geometry.location);
+                console.log("SHELTER LOCATION!!!!!!!", result.data.results[0].geometry.location);
                 this.setState({
                     shelterLocation: result.data.results[0].geometry.location,
                     loading: false
@@ -48,6 +48,10 @@ class DogDetail extends Component {
             })
             .catch(err => {
                 console.log(err);
+                this.setState({
+                    shelterLocation: {},
+                    loading: false
+                })
             })
     }
 
@@ -103,9 +107,11 @@ class DogDetail extends Component {
                                     {dogInfo.shelter.social_media.instagram && <a className="dogDetails__socialIcons-instagram" href={dogInfo.shelter.social_media.instagram}><i class="fab fa-instagram-square"></i></a> }
                                 </div>
                             </Col>
-                            <Col lg="6" className="dogDetails__mapCol">
-                                <MapContainer className="dogDetails__map" shelterLocation={this.state.shelterLocation} shelterInfo={this.state.shelterInfo} />
-                            </Col>
+                            {this.state.shelterLocation.lat &&
+                                <Col lg="6" className="dogDetails__mapCol">
+                                    <MapContainer className="dogDetails__map" shelterLocation={this.state.shelterLocation} shelterInfo={this.state.shelterInfo} />
+                                </Col>
+                            }
                         </Row>
                     </Container>
                 }

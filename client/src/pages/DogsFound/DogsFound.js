@@ -8,7 +8,8 @@ import ButtonQuiz from "../../components/ButtonQuiz/ButtonQuiz";
 class HomePage extends Component {
 
     state = {
-        dogs: []
+        dogs: [],
+        otherDogsFound: []
     }
 
     componentDidMount() {
@@ -27,12 +28,12 @@ class HomePage extends Component {
                         </Row>
                     </div>
 
-                    {/* <div className="dogsfound__others">
+                    <div className="dogsfound__others">
                         <h1 className="dogsfound__title">Other Dogs Found</h1>
                         <Row className="justify-content-lg-center">
-                            <CardDogFound />
+                            <CardDogFound dogs={this.props.location.state.otherDogsFound}/>
                         </Row>
-                    </div> */}
+                    </div>
                     <Row className="justify-content-lg-center">
                         <ButtonQuiz text={"Retake the Quiz"} />
                     </Row>

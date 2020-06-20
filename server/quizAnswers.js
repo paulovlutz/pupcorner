@@ -29,6 +29,13 @@ router.post("/", (req, res) => {
         limit: 100
     }
 
+    let searchParamsOtherDogs = {
+        type: "Dog",
+        location: `${addressBody.city}, ${addressBody.state}, ${addressBody.country}`,
+        distance: 40,
+        limit: 100
+    }
+
     console.log("SEARCH PARAMS: ", searchParams)
 
     // Filter Dogs
@@ -141,7 +148,6 @@ router.post("/", (req, res) => {
         let dogsSorted = Object.keys(dogRanking).sort(function(a,b){return dogRanking[b]-dogRanking[a]});
         let dogsArray = [];
 
-        // pega os ids pra achars os dogjohnson
         for (let c = 0; c < dogsSorted.length; c++) {
 
             let singleDogFound = dogsFound.find(dog => {
@@ -150,7 +156,24 @@ router.post("/", (req, res) => {
 
             dogsArray.push(singleDogFound);
         }
-        return res.status(200).json({dogsFound: dogsArray});
+
+        // Other Dogs
+        client.animal.search(searchParamsOtherDogs)
+        .then(result => {
+            let otherDogsFound = result.data.animals;
+            console.log("OTHER DOGS: ", otherDogsFound);
+
+            let dogArraysIDs = dogsArray.map(dog => {
+                return (dog.id)
+            })
+
+            otherDogsFound = otherDogsFound.filter(dog => !dogArraysIDs.includes(dog.id));
+
+            return res.status(200).json({dogsFound: dogsArray, otherDogsFound: otherDogsFound});
+        })
+        .catch(err => {
+            console.log(err);
+        })
     })
     .catch(err => {
         console.log(err);

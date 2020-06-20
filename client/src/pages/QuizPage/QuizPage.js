@@ -101,7 +101,7 @@ class QuizPage extends Component {
         .then(result => {
             this.props.history.push({
                 pathname: '/dogsfound',
-                state: { dogs: result.data.dogsFound }
+                state: { dogs: result.data.dogsFound, otherDogsFound: result.data.otherDogsFound }
             })
         })
         .catch(err => {
