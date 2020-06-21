@@ -11,9 +11,6 @@ export class MapContainer extends Component {
     };
 
     onMarkerClick = (props, marker, e) => {
-        console.log('PROPS', props);
-        console.log('MARKER', marker);
-        console.log('SHELTER', this.props.shelterLocation);
         this.setState({
             selectedPlace: props,
             activeMarker: marker,

@@ -27,27 +27,24 @@ class DogDetail extends Component {
         axios
             .get(backend_url + "/dogdetails/" + this.props.match.params.id)
             .then(result => {
-                console.log("RESULT DATA ", result.data);
                 this.setState({
                     dog: result.data.dog,
                     shelterInfo: result.data.dog.shelter
                 })
-                let shelterAddress = result.data.dog.shelter.address;
-                console.log('SHELTER ADDRESS ', shelterAddress);
 
                 let shelterPostalCode = result.data.dog.shelter.address.postcode;
-                console.log("SHELTER POSTAL CODE ", shelterPostalCode);
 
+                // get the shelter location based on the postal code
                 return (axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${shelterPostalCode}&key=${google_api_key}`))
             })    
             .then(result => {
-                console.log("SHELTER LOCATION!!!!!!!", result.data.results[0].geometry.location);
                 this.setState({
                     shelterLocation: result.data.results[0].geometry.location,
                     loading: false
                 })
             })
             .catch(err => {
+                // if shelter location not found proceed without it
                 console.log(err);
                 this.setState({
                     shelterLocation: {},
@@ -58,64 +55,67 @@ class DogDetail extends Component {
 
     render() {
         let dogInfo = this.state.dog;
+        let shelterInfo = dogInfo.shelter;
+        let shelterLocation = this.state.shelterLocation;
 
         return(
             <>
                 <Header />
-                    <section className="dogDetails">
+                <section className="dogDetails">
                     {this.state.loading === true &&
-                    <Loader /> }
+                        <Loader />
+                    }
                     {this.state.loading === false &&
-                    <Container className="dogDetails__container">
-                        <Row>
-                            <Col lg="1">
-                                <a onClick={this.props.history.goBack} className="dogDetails__arrow left"></a>
-                            </Col>
-                            <Col lg="7" className="dogDetails__image">
-                                <ImageGallery items={dogInfo.photos} alt="dog profile picture" showThumbnails={false} showFullscreenButton={false} showPlayButton={false} />
-                            </Col>
-                            <Col lg="4" className="dogDetails__info">
-                                <h1 className="dogDetails__name">{dogInfo.name}</h1>
-                                <p><span className="dogDetails__info-bold">Primary Breed: </span>{dogInfo.breed}</p>
-                                <p><span className="dogDetails__info-bold">Age: </span>{dogInfo.age}</p>
-                                <p><span className="dogDetails__info-bold">Gender: </span>{dogInfo.gender}</p>
-                                <p><span className="dogDetails__info-bold">Size: </span>{dogInfo.size}</p>
-                                {this.state && this.state.dog && this.state.dog.shedding &&
-                                    <>
-                                        <h4 className="dogDetails__generalInfo">General Breed Information:</h4>
-                                        <p><span className="dogDetails__info-bold">Shedding: </span>{dogInfo.shedding}</p>
-                                        <p><span className="dogDetails__info-bold">Grooming: </span>{dogInfo.grooming}</p>
-                                        <p><span className="dogDetails__info-bold">Energy Level: </span>{dogInfo.energy}</p>
-                                        <p><span className="dogDetails__info-bold">Trainability: </span>{dogInfo.trainability}</p>
-                                        <p><span className="dogDetails__info-bold">Temperament: </span>{dogInfo.temperament}</p>
-                                        <p><span className="dogDetails__info-bold">Life Expectancy: </span>{dogInfo.life_expectancy}</p>
-                                        <p><span className="dogDetails__info-bold">Weight: </span>{dogInfo.weight}</p>
-                                    </>
-                                }
-                            </Col>
-                        </Row>
-                        <Row className="dogDetails__shelterRow">
-                            <Col lg="6" className="dogDetails__shelterText">
-                                <h2 className="dogDetails__shelter">Shelter Information</h2>
-                                {dogInfo.shelter.name && <h5>{dogInfo.shelter.name}</h5> }
-                                {dogInfo.shelter.address.address1 && <h5>{dogInfo.shelter.address.address1}</h5> }
-                                {(dogInfo.shelter.address.city || dogInfo.shelter.address.state) && <h5>{dogInfo.shelter.address.city}, {dogInfo.shelter.address.state}</h5>}
-                                {dogInfo.shelter.address.postcode && <h5>{dogInfo.shelter.address.postcode} - {dogInfo.shelter.address.country}</h5> }
-                                {dogInfo.shelter.email && <h5>{dogInfo.shelter.email}</h5> }
-                                {dogInfo.shelter.phone && <h5>{dogInfo.shelter.phone}</h5> }
-                                <div className="dogDetails__socialIcons">
-                                    {dogInfo.shelter.social_media.facebook && <a className="dogDetails__socialIcons-facebook" href={dogInfo.shelter.social_media.facebook}><i class="fab fa-facebook-square"></i></a> }
-                                    {dogInfo.shelter.social_media.instagram && <a className="dogDetails__socialIcons-instagram" href={dogInfo.shelter.social_media.instagram}><i class="fab fa-instagram-square"></i></a> }
-                                </div>
-                            </Col>
-                            {this.state.shelterLocation.lat &&
-                                <Col lg="6" className="dogDetails__mapCol">
-                                    <MapContainer className="dogDetails__map" shelterLocation={this.state.shelterLocation} shelterInfo={this.state.shelterInfo} />
+                        <Container className="dogDetails__container">
+                            <Row>
+                                <Col lg="1">
+                                    <a onClick={this.props.history.goBack} className="dogDetails__arrow left"></a>
                                 </Col>
-                            }
-                        </Row>
-                    </Container>
-                }
+                                <Col lg="7" className="dogDetails__image">
+                                    <ImageGallery items={dogInfo.photos} alt="dog profile picture" showThumbnails={false} showFullscreenButton={false} showPlayButton={false} />
+                                </Col>
+                                <Col lg="4" className="dogDetails__info">
+                                    <h1 className="dogDetails__name">{dogInfo.name}</h1>
+                                    <p><span className="dogDetails__info-bold">Primary Breed: </span>{dogInfo.breed}</p>
+                                    <p><span className="dogDetails__info-bold">Age: </span>{dogInfo.age}</p>
+                                    <p><span className="dogDetails__info-bold">Gender: </span>{dogInfo.gender}</p>
+                                    <p><span className="dogDetails__info-bold">Size: </span>{dogInfo.size}</p>
+                                    {(dogInfo.shedding || dogInfo.grooming || dogInfo.energy || dogInfo.trainability) &&
+                                        <>
+                                            <h4 className="dogDetails__generalInfo">General Breed Information:</h4>
+                                            <p><span className="dogDetails__info-bold">Shedding: </span>{dogInfo.shedding}</p>
+                                            <p><span className="dogDetails__info-bold">Grooming: </span>{dogInfo.grooming}</p>
+                                            <p><span className="dogDetails__info-bold">Energy Level: </span>{dogInfo.energy}</p>
+                                            <p><span className="dogDetails__info-bold">Trainability: </span>{dogInfo.trainability}</p>
+                                            <p><span className="dogDetails__info-bold">Temperament: </span>{dogInfo.temperament}</p>
+                                            <p><span className="dogDetails__info-bold">Life Expectancy: </span>{dogInfo.life_expectancy}</p>
+                                            <p><span className="dogDetails__info-bold">Weight: </span>{dogInfo.weight}</p>
+                                        </>
+                                    }
+                                </Col>
+                            </Row>
+                            <Row className="dogDetails__shelterRow">
+                                <Col lg="6" className="dogDetails__shelterText">
+                                    <h2 className="dogDetails__shelter">Shelter Information</h2>
+                                    {shelterInfo.name && <h5>{shelterInfo.name}</h5>}
+                                    {shelterInfo.address.address1 && <h5>{shelterInfo.address.address1}</h5>}
+                                    {(shelterInfo.address.city || shelterInfo.address.state) && <h5>{shelterInfo.address.city}, {shelterInfo.address.state}</h5>}
+                                    {(shelterInfo.address.postcode || shelterInfo.address.country) && <h5>{shelterInfo.address.postcode} - {shelterInfo.address.country}</h5>}
+                                    {shelterInfo.email && <h5>{shelterInfo.email}</h5>}
+                                    {shelterInfo.phone && <h5>{shelterInfo.phone}</h5>}
+                                    <div className="dogDetails__socialIcons">
+                                        {shelterInfo.social_media.facebook && <a className="dogDetails__socialIcons-facebook" href={shelterInfo.social_media.facebook}><i class="fab fa-facebook-square"></i></a> }
+                                        {shelterInfo.social_media.instagram && <a className="dogDetails__socialIcons-instagram" href={shelterInfo.social_media.instagram}><i class="fab fa-instagram-square"></i></a> }
+                                    </div>
+                                </Col>
+                                {shelterLocation.lat &&
+                                    <Col lg="6" className="dogDetails__mapCol">
+                                        <MapContainer className="dogDetails__map" shelterLocation={shelterLocation} shelterInfo={this.state.shelterInfo} />
+                                    </Col>
+                                }
+                            </Row>
+                        </Container>
+                    }
                 </section>
             </>
         )

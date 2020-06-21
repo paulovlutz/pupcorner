@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { Link } from "react-router-dom";
 import './HomePage.scss';
 import Header from '../../components/Header/Header';
 import ButtonQuiz from "../../components/ButtonQuiz/ButtonQuiz";

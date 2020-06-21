@@ -16,52 +16,67 @@ const backend_url = process.env.REACT_APP_API_URL;
 const googleAPI = process.env.REACT_APP_GOOGLE_MAPS_API;
 
 class QuizPage extends Component {
-
     state = {
         selectedAnswers: {}
     }
 
-    handleClick = (onlyOneAnswer, answerId, questionId) => {
-        let answersArray = this.state.selectedAnswers[questionId];
+    getAddressComponents = (listOfAddress) => {
+        let userCity = listOfAddress.find(addressType => {
+            return addressType.types.includes("locality");
+        })
+        userCity = userCity.long_name;
 
-        console.log(answerId, questionId);
-        let clickedAnswers = [];
-        if (answersArray === undefined) {
-            clickedAnswers = [answerId];
-        } else if (answersArray.includes(answerId) ) {
-            answersArray.splice(answersArray.indexOf(answerId), 1);
-            clickedAnswers = answersArray;
+        let userState = listOfAddress.find(addressType => {
+            return addressType.types.includes("administrative_area_level_1");
+        })
+        userState = userState.long_name;
+
+        let userCountry = listOfAddress.find(addressType => {
+            return addressType.types.includes("country");
+        })
+        userCountry = userCountry.long_name;
+
+        return({city: userCity, state: userState, country: userCountry});
+    }
+
+    handleClickOnAnswer = (onlyOneAnswer, answerId, questionId) => {
+        let selectedAnswersArray = this.state.selectedAnswers[questionId];
+        let newSelectedAnswers = [];
+
+        if (selectedAnswersArray === undefined) {
+            newSelectedAnswers = [answerId];
+        } else if (selectedAnswersArray.includes(answerId) ) {
+            // If answer already selected, remove it
+            selectedAnswersArray.splice(selectedAnswersArray.indexOf(answerId), 1);
+            newSelectedAnswers = selectedAnswersArray;
         } else {
             if (onlyOneAnswer === true) {
-                clickedAnswers = [answerId];
+                newSelectedAnswers = [answerId];
             } else {
-                clickedAnswers = [...answersArray, answerId];
+                newSelectedAnswers = [...selectedAnswersArray, answerId];
             }
         }
+
         this.setState({
-            selectedAnswers: {...this.state.selectedAnswers, [questionId]: clickedAnswers}
-        }, () => {
-            console.log(this.state);
+            selectedAnswers: {...this.state.selectedAnswers, [questionId]: newSelectedAnswers}
         })
     }
 
     handleSubmitAnswers = event => {
         event.preventDefault();
 
+        // get the latitude and longitude of the user
         axios
         .post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${googleAPI}`)
         .then(result => {
-            console.log("API LOCATION ", result.data.location);
             let userLat = result.data.location.lat;
             let userLng = result.data.location.lng;
-            
-            console.log("USER LAT ", userLat);
-            console.log("USER LONG ", userLng);
 
+            // get the user lat and lng and transform into an address
             return (axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${userLat},${userLng}&key=${googleAPI}`))
         })
         .catch(err => {
-            console.log(err);
+            // if location not found it uses a default location - Toronto
             let userLat = 43.6532;
             let userLng = 79.3832;
 
@@ -69,36 +84,15 @@ class QuizPage extends Component {
         })
         .then((result) => {
             let listOfAddress = result.data.results[0].address_components;
-            console.log("TRANSFORM LOCATION TO ADDRESS", result.data);
-            console.log("ADDRESS 2", listOfAddress[2].types.includes("locality"));
             
-            let userCity = result.data.results[0].address_components.find(addressType => {
-                return addressType.types.includes("locality");
-            })
-            userCity = userCity.long_name;
-            console.log("USER CITY: ", userCity);
-
-            let userState = result.data.results[0].address_components.find(addressType => {
-                return addressType.types.includes("administrative_area_level_1");
-            })
-            userState = userState.long_name;
-            console.log("USER STATE: ", userState);
-
-            let userCountry = result.data.results[0].address_components.find(addressType => {
-                return addressType.types.includes("country");
-            })
-            userCountry = userCountry.long_name;
-            console.log("USER COUNTRY: ", userCountry);
-
-            let userAddress = {city: userCity, state: userState, country: userCountry};
-
-            console.log("USER ADDRESS STATE: ", userAddress);
+            let userAddress = this.getAddressComponents(listOfAddress);
 
             let answerAndAddress = {answers: this.state.selectedAnswers, address: userAddress};
 
             return (axios.post(backend_url + "/quizAnswers", answerAndAddress))
         })
         .then(result => {
+            // redirect the information to the dogsfound page
             this.props.history.push({
                 pathname: '/dogsfound',
                 state: { dogs: result.data.dogsFound, otherDogsFound: result.data.otherDogsFound }
@@ -109,8 +103,6 @@ class QuizPage extends Component {
         })
     }
 
-    questions = quizQuestions;
-
     render() {
 
         return (
@@ -119,7 +111,7 @@ class QuizPage extends Component {
                 <section className="quiz animated-background">
                     <Wizard>
                         <Steps>
-                            {this.questions.map((question, _) => {
+                            {quizQuestions.map((question, _) => {
                                 return (
                                     <Step
                                         id={question.id}
@@ -141,9 +133,10 @@ class QuizPage extends Component {
                                                         )}
                                                     </Col>
                                                         
-                                                    <Col><CardQuizPage onlyOneAnswer={question.onlyOneAnswer} questionId={question.id} selectedAnswers={this.state.selectedAnswers[question.id]} answers={question.answers} handleActiveClass={this.handleClick} /></Col>
+                                                    <Col><CardQuizPage onlyOneAnswer={question.onlyOneAnswer} questionId={question.id} selectedAnswers={this.state.selectedAnswers[question.id]} answers={question.answers} handleActiveClass={this.handleClickOnAnswer} /></Col>
 
                                                     <Col lg="1">
+                                                        {/* display arrow only when you have a next step and at least one answer was selected */}
                                                         {(steps.indexOf(step) < steps.length - 1) && (this.state.selectedAnswers[question.id] !== undefined && this.state.selectedAnswers[question.id].length !== 0) && (
                                                             <a className="quiz__cards-arrow right" onClick={next}></a>
                                                         )}                                                            

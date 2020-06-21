@@ -1,26 +1,120 @@
 const express = require('express');
-const fs = require('fs');
-// const { v4: uuidv4 } = require('uuid');
-const axios = require("axios");
-const knex = require("knex");
 const router = express.Router();
 const petfinder = require("@petfinder/petfinder-js");
 const Breed = require("./models/breed");
 
-// chars tested: size, age, house_trained, gender
-let characteristics_api = ["size", "age", "house_trained", "gender"];
-// // chars tested: trainability, shedding, grooming, energy, temperament
-let characteristics_db = ["trainability", "shedding", "grooming", "energy", "temperament"];
+createFilterParams = (answerBody, searchParams) => {
+    if (answerBody.children.includes("yes")) {
+        searchParams["good_with_children"] = "true";
+    }
+
+    if (answerBody.dogs.includes("yes")) {
+        searchParams["good_with_dogs"] = "true";
+    }
+
+    if (answerBody.cats.includes("yes")) {
+        searchParams["good_with_cats"] = "true";
+    }
+}
+
+mapUnknownBreeds = (dogBreed) => {
+    unknownBreedsMap = {
+        "Pit Bull Terrier": "American Staffordshire Terrier",
+        "English Bulldog": "Bulldog",
+        "Black Labrador Retriever": "Labrador Retriever",
+        "Jack Russell Terrier": "Russell Terrier",
+        "Australian Cattle Dog / Blue Heeler": "Australian Cattle Dog"
+    }
+
+    if (unknownBreedsMap[dogBreed] !== undefined) {
+        dogBreed = unknownBreedsMap[dogBreed]
+    }
+
+    return dogBreed;
+}
+
+rankDogsBasedOnApiCharacteristics = (dogAPI, answerBody, dogRanking) => {
+    let characteristicsApi = ["size", "age", "house_trained", "gender"];
+    for (let i = 0; i < characteristicsApi.length; i++) {
+        let characteristic = characteristicsApi[i];
+
+        if (dogAPI[characteristic] !== undefined && answerBody[characteristic].includes(dogAPI[characteristic].toLowerCase())) {
+            addPointsToDog(dogRanking, dogAPI.id);
+        }
+    }
+}
+
+rankDogsBasedOnDBCharacteristics = (breed, answerBody, dogRanking, dogID) => {
+    let characteristicsDb = ["trainability", "shedding", "grooming", "energy", "temperament"];
+
+    let descriptionToDBKey = {
+        "Eager to Please": "eager",
+        "Easy Training": "easy",
+        "May be Stubborn": "stubborn",
+        "Occasional Bath/Brush": "occasional",
+        "Weekly Brushing": "weekly",
+        "2-3 Times a Week Brushing": "times",
+        "Daily Brushing": "daily",
+        "Specialty/Professional": "professional",
+        "Couch Potato": "couch",
+        "Regular Exercise": "regular",
+        "Needs Lots of Activity": "lots",
+        "Aloof/Wary": "wary",
+        "Reserved with Strangers": "reserved",
+        "Alert/Responsive": "alert"
+    }
+
+    for (let i = 0; i < characteristicsDb.length; i++) {
+        let characteristic = characteristicsDb[i];
+
+        let breedAttribute = breed.attributes[characteristic]
+
+        if (descriptionToDBKey[breedAttribute] !== undefined) {
+            breedAttribute = descriptionToDBKey[breedAttribute];
+        }
+
+        if (breedAttribute !== undefined && answerBody[characteristic].includes(breedAttribute.toLowerCase())) {
+            addPointsToDog(dogRanking, dogID);
+        }
+    }
+}
+
+addPointsToDog = (dogRanking, singleDogId) => {
+    if (dogRanking[singleDogId] === undefined) {
+        dogRanking[singleDogId] = 0;
+    }
+    dogRanking[singleDogId] += 1;
+}
+
+sortDogs = (dogRanking, dogsFound) => {
+    let dogsSorted = Object.keys(dogRanking).sort(function(a,b){return dogRanking[b]-dogRanking[a]});
+    let dogsArray = [];
+
+    for (let c = 0; c < dogsSorted.length; c++) {
+
+        let singleDogFound = dogsFound.find(dog => {
+            return dog.id == dogsSorted[c];
+        });
+
+        dogsArray.push(singleDogFound);
+    }
+
+    return dogsArray;
+}
+
+filterDuplicateDogs = (dogsArray, otherDogsFound) => {
+    let dogArraysIDs = dogsArray.map(dog => {
+        return (dog.id)
+    })
+
+    otherDogsFound = otherDogsFound.filter(dog => !dogArraysIDs.includes(dog.id));
+}
 
 router.post("/", (req, res) => {
     const client = new petfinder.Client({apiKey: process.env.PETFINDER_KEY, secret: process.env.PETFINDER_SECRET});
 
     let answerBody = req.body.answers;
     let addressBody = req.body.address;
-    // client.authenticate();
-
-    console.log("ANSWER BODY ", answerBody);
-    console.log("ADDRESS BODY ", addressBody);
 
     let searchParams = {
         type: "Dog",
@@ -29,33 +123,7 @@ router.post("/", (req, res) => {
         limit: 100
     }
 
-    let searchParamsOtherDogs = {
-        type: "Dog",
-        location: `${addressBody.city}, ${addressBody.state}, ${addressBody.country}`,
-        distance: 40,
-        limit: 100
-    }
-
-    console.log("SEARCH PARAMS: ", searchParams)
-
-    // Filter Dogs
-
-    if (answerBody.children.includes("yes")) {
-        searchParams["good_with_children"] = "true";
-        console.log(searchParams);
-    }
-
-    if (answerBody.dogs.includes("yes")) {
-        searchParams["good_with_dogs"] = "true";
-        console.log(searchParams);
-    }
-
-    if (answerBody.cats.includes("yes")) {
-        searchParams["good_with_cats"] = "true";
-        console.log(searchParams);
-    }
-
-    // Ranking Dogs
+    createFilterParams(answerBody, searchParams);
 
     client.animal.search(searchParams)
     .then(result => {
@@ -70,74 +138,17 @@ router.post("/", (req, res) => {
                 house_trained: dogsFound[i].attributes.house_trained.toString(),
                 gender: dogsFound[i].gender
             };
-
-            let singleDogId = dogAPI.id;
     
-            for (let j = 0; j < characteristics_api.length; j++) {
-                let characteristic = characteristics_api[j];
-    
-                // ["small", "medium"].includes("small")
-                if (dogAPI[characteristic] !== undefined && answerBody[characteristic].includes(dogAPI[characteristic].toLowerCase())) {
-    
-                    if (dogRanking[singleDogId] === undefined) {
-                        dogRanking[singleDogId] = 0;
-                    }
-                    dogRanking[singleDogId] += 1;
-                }
-            }
+            rankDogsBasedOnApiCharacteristics(dogAPI, answerBody, dogRanking);
 
             let dogFoundPrimaryBreed = dogsFound[i].breeds.primary;
 
-            dogOtherBreeds = {
-                "Pit Bull Terrier": "American Staffordshire Terrier",
-                "English Bulldog": "Bulldog",
-                "Black Labrador Retriever": "Labrador Retriever",
-                "Jack Russell Terrier": "Russell Terrier",
-                "Australian Cattle Dog / Blue Heeler": "Australian Cattle Dog"
-            }
-
-            if (dogOtherBreeds[dogFoundPrimaryBreed] !== undefined) {
-                dogFoundPrimaryBreed = dogOtherBreeds[dogFoundPrimaryBreed]
-            }
+            dogFoundPrimaryBreed = mapUnknownBreeds(dogFoundPrimaryBreed);
 
             Breed.where("breed", "like", "%" + dogFoundPrimaryBreed + "%")
             .fetch()
             .then(breed => {                
-                for (let d = 0; d < characteristics_db.length; d++) {
-                    let characteristic = characteristics_db[d];
-
-                    let breedDB = {
-                        "Eager to Please": "eager",
-                        "Easy Training": "easy",
-                        "May be Stubborn": "stubborn",
-                        "Occasional Bath/Brush": "occasional",
-                        "Weekly Brushing": "weekly",
-                        "2-3 Times a Week Brushing": "times",
-                        "Daily Brushing": "daily",
-                        "Specialty/Professional": "professional",
-                        "Couch Potato": "couch",
-                        "Regular Exercise": "regular",
-                        "Needs Lots of Activity": "lots",
-                        "Aloof/Wary": "wary",
-                        "Reserved with Strangers": "reserved",
-                        "Alert/Responsive": "alert"
-                    }
-
-                    let breedAttribute = breed.attributes[characteristic]
-
-                    if (breedDB[breedAttribute] !== undefined) {
-                        breedAttribute = breedDB[breedAttribute];
-                    }
-
-                    if (breedAttribute !== undefined && answerBody[characteristic].includes(breedAttribute.toLowerCase())) {
-                        
-                        if (dogRanking[singleDogId] === undefined) {
-                            dogRanking[singleDogId] = 0;
-                        }
-                        dogRanking[singleDogId] += 1;
-                    }
-                }
-
+                rankDogsBasedOnDBCharacteristics(breed, answerBody, dogRanking, dogAPI.id);
             })
             .catch(err => {
                 console.log("Could not find " + dogFoundPrimaryBreed);
@@ -145,38 +156,31 @@ router.post("/", (req, res) => {
         }
 
         // Sort dogs
-        let dogsSorted = Object.keys(dogRanking).sort(function(a,b){return dogRanking[b]-dogRanking[a]});
-        let dogsArray = [];
-
-        for (let c = 0; c < dogsSorted.length; c++) {
-
-            let singleDogFound = dogsFound.find(dog => {
-                return dog.id == dogsSorted[c];
-            });
-
-            dogsArray.push(singleDogFound);
-        }
+        
+        let dogsArray = sortDogs(dogRanking, dogsFound);
 
         // Other Dogs
+        let searchParamsOtherDogs = {
+            type: "Dog",
+            location: `${addressBody.city}, ${addressBody.state}, ${addressBody.country}`,
+            distance: 40,
+            limit: 100
+        }
+
         client.animal.search(searchParamsOtherDogs)
         .then(result => {
             let otherDogsFound = result.data.animals;
-            console.log("OTHER DOGS: ", otherDogsFound);
 
-            let dogArraysIDs = dogsArray.map(dog => {
-                return (dog.id)
-            })
-
-            otherDogsFound = otherDogsFound.filter(dog => !dogArraysIDs.includes(dog.id));
-
+            filterDuplicateDogs(dogsArray, otherDogsFound);
+            
             return res.status(200).json({dogsFound: dogsArray, otherDogsFound: otherDogsFound});
-        })
-        .catch(err => {
-            console.log(err);
         })
     })
     .catch(err => {
         console.log(err);
+        return res.status(404).json({
+            "message": "Sorry, dog not found."
+        });
     })
 });
 

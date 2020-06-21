@@ -7,10 +7,6 @@ import Row from "react-bootstrap/Row";
 import Interweave from "interweave";
 
 class CardDogFound extends Component {
-
-    handleClick = (e) => {
-        console.log(e);
-    }
     
     render() {
         return(

@@ -1,57 +1,51 @@
 const express = require('express');
-const fs = require('fs');
-// const { v4: uuidv4 } = require('uuid');
-const axios = require("axios");
-const knex = require("knex");
 const router = express.Router();
 const petfinder = require("@petfinder/petfinder-js");
 const Breed = require("./models/breed");
 
+mapUnknownBreeds = (dogBreed) => {
+    unknownBreedsMap = {
+        "Pit Bull Terrier": "American Staffordshire Terrier",
+        "English Bulldog": "Bulldog",
+        "Black Labrador Retriever": "Labrador Retriever",
+        "Jack Russell Terrier": "Russell Terrier",
+        "Australian Cattle Dog / Blue Heeler": "Australian Cattle Dog"
+    }
+
+    if (unknownBreedsMap[dogBreed] !== undefined) {
+        dogBreed = unknownBreedsMap[dogBreed]
+    }
+
+    return dogBreed;
+}
+
 router.get("/:id", (req, res) => {
     const client = new petfinder.Client({apiKey: process.env.PETFINDER_KEY, secret: process.env.PETFINDER_SECRET});
     
-    // client.authenticate();
-    // pegar o id do dog pelo api
     let dog = {};
     let dogId = req.params.id;
-    // pegar o breed do cachorro e as caracteristicas
 
     client.animal.show(dogId)
     .then(result => {
-        console.log("CADE AS FOTICA :", result.data.animal.photos)
         let dogResult = result.data.animal;
         let shelterID = dogResult.organization_id;
         let dogBreed = dogResult.breeds.primary;
 
+        // map dog photos for carousel
         let dogAllPhotos = dogResult.photos.map((photo, _) => {
             return {original: photo.large, originalClass: "dogDetails__image-image"};
         })
-        console.log("DOG PHOTOS!!!!!!!!! ", dogAllPhotos);
-
-        // let dogPhoto = (dogResult.photos && dogResult.photos);
 
         client.organization.show(shelterID)
             .then(result => {
-                console.log("SHELTER ID", result.data.organization);
-
                 let organizationDetails = result.data.organization;
 
-                dogOtherBreeds = {
-                    "Pit Bull Terrier": "American Staffordshire Terrier",
-                    "English Bulldog": "Bulldog",
-                    "Black Labrador Retriever": "Labrador Retriever",
-                    "Jack Russell Terrier": "Russell Terrier",
-                    "Australian Cattle Dog / Blue Heeler": "Australian Cattle Dog"
-                }
-    
-                if (dogOtherBreeds[dogBreed] !== undefined) {
-                    dogBreed = dogOtherBreeds[dogBreed]
-                }
+                dogBreed = mapUnknownBreeds(dogBreed);
 
                 Breed.where("breed", "like", "%" + dogBreed + "%")
                 .fetch()
                 .then(result => {
-                    let dogAttributeDB = result.attributes;
+                    let breedAttributes = result.attributes;
     
                     dog = {
                         id: dogResult.id,
@@ -62,19 +56,19 @@ router.get("/:id", (req, res) => {
                         age: dogResult.age,
                         gender: dogResult.gender,
                         size: dogResult.size,
-                        shedding: dogAttributeDB.shedding,
-                        grooming: dogAttributeDB.grooming,
-                        energy: dogAttributeDB.energy,
-                        trainability: dogAttributeDB.trainability,
-                        temperament: dogAttributeDB.temperament,
-                        life_expectancy: dogAttributeDB.life_expectancy,
-                        weight: dogAttributeDB.weight,
+                        shedding: breedAttributes.shedding,
+                        grooming: breedAttributes.grooming,
+                        energy: breedAttributes.energy,
+                        trainability: breedAttributes.trainability,
+                        temperament: breedAttributes.temperament,
+                        life_expectancy: breedAttributes.life_expectancy,
+                        weight: breedAttributes.weight,
                         shelter: organizationDetails
                     }
-                    console.log(dog);
                     return res.status(200).json({dog: dog});
                 })
                 .catch(err => {
+                    // if breed not found in DB return only attributes from API
                     dog = {
                         id: dogResult.id,
                         photos: dogAllPhotos,
@@ -89,19 +83,13 @@ router.get("/:id", (req, res) => {
                     return res.status(200).json({dog: dog});
                 })
             })
-            .catch(err => {
-                console.log(err);
-                return res.status(404).json({
-                    "message": "Sorry, dog not found."
-                });
-            })
     })
     .catch(err => {
-        console.log("Sorry, dog not found.");
         console.log(err);
+        return res.status(404).json({
+            "message": "Sorry, dog not found."
+        });
     });
-    // construir proprio objeto pra incluir os dois
-    // mandar informaçao pro front-end
 });
 
 module.exports = router;

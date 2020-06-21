@@ -7,15 +7,6 @@ import ButtonQuiz from "../../components/ButtonQuiz/ButtonQuiz";
 
 class HomePage extends Component {
 
-    state = {
-        dogs: [],
-        otherDogsFound: []
-    }
-
-    componentDidMount() {
-        console.log(this.state.dogs);
-    }
-
     render() {
         return (
             <>
