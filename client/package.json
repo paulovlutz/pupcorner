@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://pupcorner.herokuapp.com:5000",
   "dependencies": {
     "@petfinder/petfinder-js": "^1.0.6",
     "@testing-library/jest-dom": "^4.2.4",
