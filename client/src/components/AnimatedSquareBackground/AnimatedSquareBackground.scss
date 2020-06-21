@@ -1,5 +1,7 @@
 @import '../../styles/mixins';
 
+// background based on https://codepen.io/Lewitje/pen/BNNJjo
+
 .animated-background {
     background: $darker-blue;
     background: -webkit-linear-gradient(top left, $darker-blue 0%, $blue 100%);

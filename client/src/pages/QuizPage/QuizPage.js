@@ -12,7 +12,7 @@ import quizQuestions from "./quizQuestions.json";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 
-const backend_url = process.env.REACT_APP_API_URL;
+const backend_url = (process.env.NODE_ENV === "production") ? "/quizAnswers" : (process.env.REACT_APP_API_URL + "/quizAnswers");
 const googleAPI = process.env.REACT_APP_GOOGLE_MAPS_API;
 
 class QuizPage extends Component {
@@ -89,7 +89,7 @@ class QuizPage extends Component {
 
             let answerAndAddress = {answers: this.state.selectedAnswers, address: userAddress};
 
-            return (axios.post(backend_url + "/quizAnswers", answerAndAddress))
+            return (axios.post(backend_url, answerAndAddress))
         })
         .then(result => {
             // redirect the information to the dogsfound page

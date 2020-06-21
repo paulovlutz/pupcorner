@@ -9,7 +9,7 @@ import MapContainer from "../../components/MapContainer/MapContainer";
 import ImageGallery from 'react-image-gallery';
 import Loader from "../../components/Loader/Loader";
 
-const backend_url = process.env.REACT_APP_API_URL;
+const backend_url = (process.env.NODE_ENV === "production") ? "/dogdetails/" : (process.env.REACT_APP_API_URL + "/dogdetails/");
 const google_api_key = process.env.REACT_APP_GOOGLE_MAPS_API;
 
 class DogDetail extends Component {
@@ -25,7 +25,7 @@ class DogDetail extends Component {
         window.scrollTo(0, 0);
 
         axios
-            .get(backend_url + "/dogdetails/" + this.props.match.params.id)
+            .get(backend_url + this.props.match.params.id)
             .then(result => {
                 this.setState({
                     dog: result.data.dog,
