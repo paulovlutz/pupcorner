@@ -1,11 +1,13 @@
 const express = require('express');
-const app = express();
 const cors = require('cors');
 const mysql = require("mysql");
 const knex = require("./knexfile");
 const bodyParser = require('body-parser');
 const quizAnswers = require("./quizAnswers");
 const dogDetail = require("./dogDetails");
+const path = require("path");
+
+const app = express();
 
 require('dotenv').config();
 
