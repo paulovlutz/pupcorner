@@ -12,8 +12,8 @@ import quizQuestions from "./quizQuestions.json";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 
-const backend_url = "http://localhost:8080";
-const googleAPI = "AIzaSyBfHRxtq9XXnSARJ3G0l-_3zeA4h5sFbOo";
+const backend_url = process.env.REACT_APP_API_URL;
+const googleAPI = process.env.REACT_APP_GOOGLE_MAPS_API;
 
 class QuizPage extends Component {
 

@@ -7,14 +7,14 @@ const router = express.Router();
 const petfinder = require("@petfinder/petfinder-js");
 const Breed = require("./models/breed");
 
-const client = new petfinder.Client({apiKey: "d88tWoXDhGqJnRvgYCRrwY0Drudlpeyvinjm1IG6wiGUITDll6", secret: "GteFtzSAfebyEsbmhGLiApKG7jk9EF9E80KaDLAC"});
-
 // chars tested: size, age, house_trained, gender
 let characteristics_api = ["size", "age", "house_trained", "gender"];
 // // chars tested: trainability, shedding, grooming, energy, temperament
 let characteristics_db = ["trainability", "shedding", "grooming", "energy", "temperament"];
 
 router.post("/", (req, res) => {
+    const client = new petfinder.Client({apiKey: process.env.PETFINDER_KEY, secret: process.env.PETFINDER_SECRET});
+
     let answerBody = req.body.answers;
     let addressBody = req.body.address;
     // client.authenticate();

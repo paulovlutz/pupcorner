@@ -7,9 +7,9 @@ const router = express.Router();
 const petfinder = require("@petfinder/petfinder-js");
 const Breed = require("./models/breed");
 
-const client = new petfinder.Client({apiKey: "d88tWoXDhGqJnRvgYCRrwY0Drudlpeyvinjm1IG6wiGUITDll6", secret: "GteFtzSAfebyEsbmhGLiApKG7jk9EF9E80KaDLAC"});
-
 router.get("/:id", (req, res) => {
+    const client = new petfinder.Client({apiKey: process.env.PETFINDER_KEY, secret: process.env.PETFINDER_SECRET});
+    
     // client.authenticate();
     // pegar o id do dog pelo api
     let dog = {};

@@ -9,7 +9,8 @@ import MapContainer from "../../components/MapContainer/MapContainer";
 import ImageGallery from 'react-image-gallery';
 import Loader from "../../components/Loader/Loader";
 
-const backend_url = "http://localhost:8080";
+const backend_url = process.env.REACT_APP_API_URL;
+const google_api_key = process.env.REACT_APP_GOOGLE_MAPS_API;
 
 class DogDetail extends Component {
 
@@ -37,7 +38,7 @@ class DogDetail extends Component {
                 let shelterPostalCode = result.data.dog.shelter.address.postcode;
                 console.log("SHELTER POSTAL CODE ", shelterPostalCode);
 
-                return (axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${shelterPostalCode}&key=AIzaSyBfHRxtq9XXnSARJ3G0l-_3zeA4h5sFbOo`))
+                return (axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${shelterPostalCode}&key=${google_api_key}`))
             })    
             .then(result => {
                 console.log("SHELTER LOCATION!!!!!!!", result.data.results[0].geometry.location);
