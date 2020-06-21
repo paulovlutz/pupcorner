@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const mysql = require("mysql");
+const knex = require("./knexfile");
 const bodyParser = require('body-parser');
 const quizAnswers = require("./quizAnswers");
 const dogDetail = require("./dogDetails");
@@ -25,11 +27,10 @@ if (process.env.JAWSDB_URL) {
 } else {
     connection = mysql.createConnection(knex.development);
 }
-​
+
 if (process.env.NODE_ENV === "production") {
     // Set static folder
     app.use(express.static("client/build"));
-​
     app.get("*", (req, res) => {
         res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
     });
