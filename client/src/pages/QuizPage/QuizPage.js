@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import { Wizard, Steps, Step } from 'react-albus';
 import quizQuestions from "./quizQuestions.json";
 import Button from "react-bootstrap/Button";
+import Spinner from 'react-bootstrap/Spinner';
 import axios from "axios";
 
 const backend_url = (process.env.NODE_ENV === "production") ? "/quizAnswers" : (process.env.REACT_APP_API_URL + "/quizAnswers");
@@ -17,7 +18,8 @@ const googleAPI = process.env.REACT_APP_GOOGLE_MAPS_API;
 
 class QuizPage extends Component {
     state = {
-        selectedAnswers: {}
+        selectedAnswers: {},
+        showSpinner: false
     }
 
     getAddressComponents = (listOfAddress) => {
@@ -64,6 +66,10 @@ class QuizPage extends Component {
 
     handleSubmitAnswers = event => {
         event.preventDefault();
+        
+        this.setState({
+            showSpinner: true
+        })
 
         // get the latitude and longitude of the user
         axios
@@ -122,6 +128,9 @@ class QuizPage extends Component {
                                                 <Row className="quiz__question-question justify-content-lg-center">
                                                     <Col lg="auto">
                                                         {question.question}
+                                                        {question.onlyOneAnswer === false && 
+                                                            <p className="quiz__question-selectAllthatApply">(Select all that apply)</p>
+                                                        }
                                                     </Col>
                                                 </Row>
                                             </Container>
@@ -145,9 +154,12 @@ class QuizPage extends Component {
                                                 </Row>
                                                 <Row className="justify-content-lg-center quiz__cards-button">
                                                     <Col lg="auto">
-                                                        {steps.indexOf(step) === steps.length - 1 && (
+                                                        {steps.indexOf(step) === steps.length - 1 && this.state.showSpinner === false && (
                                                             <Button href="#" className="button" onClick={this.handleSubmitAnswers}>Find Dogs!</Button>
                                                         )}
+                                                        {this.state.showSpinner === true &&
+                                                            <Spinner className="quiz__spinner" animation="border" />
+                                                        }
                                                     </Col>                                                     
                                                 </Row>
                                             </Container>

@@ -16,6 +16,10 @@
         &-question {
             text-align: center;
         }
+
+        &-selectAllthatApply {
+            font-size: 1.2rem;
+        }
     }
     
     &__cards {
@@ -68,5 +72,10 @@
         &-button {
             margin-top: 40px;
         }
+    }
+
+    &__spinner {
+        color: $yellow;
+        margin-top: 50px;
     }
 }

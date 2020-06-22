@@ -130,6 +130,9 @@ router.post("/", (req, res) => {
         let dogsFound = result.data.animals;
         let dogRanking = {};
 
+        // Due to duplication in the API, I'm filtering out this dog for demonstration purposes
+        dogsFound = dogsFound.filter(dog => dog.id !== 40668183);
+
         for (let i = 0; i < dogsFound.length; i++) {
             let dogAPI = {
                 id: dogsFound[i].id,
@@ -171,6 +174,9 @@ router.post("/", (req, res) => {
         client.animal.search(searchParamsOtherDogs)
         .then(result => {
             let otherDogsFound = result.data.animals;
+
+            // Due to duplication in the API, I'm filtering out this dog for demonstration purposes
+            otherDogsFound = otherDogsFound.filter(dog => dog.id !== 40668183);
 
             filterDuplicateDogs(dogsArray, otherDogsFound);
             
