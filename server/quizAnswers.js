@@ -152,6 +152,7 @@ router.post("/", (req, res) => {
             })
             .catch(err => {
                 console.log("Could not find " + dogFoundPrimaryBreed);
+                console.log(err);
             });
         }
 

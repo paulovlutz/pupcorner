@@ -18,7 +18,7 @@ class CardQuizPage extends Component {
                             activeClass = "active";
                         }
                         return (
-                            <Card className={"quiz__card " + activeClass} onClick={() => this.props.handleActiveClass(this.props.onlyOneAnswer, card.id, this.props.questionId)}>
+                            <Card key={card.id} className={"quiz__card " + activeClass} onClick={() => this.props.handleActiveClass(this.props.onlyOneAnswer, card.id, this.props.questionId)}>
                                 <Card.Body className="quiz__card-content">
                                     <Card.Text>{card.text}</Card.Text>
                                 </Card.Body>

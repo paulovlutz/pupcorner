@@ -16,7 +16,7 @@ const Navigation = () => (
     <>
         <Navbar sticky="top">
                 <Navbar.Brand>
-                    <div class="link-wrapper">
+                    <div className="link-wrapper">
                         <Link to="/">
                             <Navbar.Text>
                             <img className="header__logo" src={logoSmall} alt="pupcorner logo" /><span className="header__navbar-brand link hover">Pupcorner</span>
@@ -25,7 +25,7 @@ const Navigation = () => (
                     </div>
                 </Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
-                    <div class="link-wrapper">
+                    <div className="link-wrapper">
                         <Link to="/about">
                             <Navbar.Text>
                                 <span className="header__navbar-about link hover">About Us</span>

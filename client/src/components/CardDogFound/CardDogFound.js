@@ -15,7 +15,7 @@ class CardDogFound extends Component {
                     let profilePhoto = (dog.photos[0] && dog.photos[0].large);
 
                     return (
-                        <Col lg="auto">
+                        <Col key={dog.id} lg="auto">
                             <Link to={`/dogdetails/${dog.id}`} className="dogfound__link">
                                 <Card className="dogfound__card">
                                     <div className="dogfound__card-like">
@@ -34,16 +34,8 @@ class CardDogFound extends Component {
                                             </Row>
                                             <Row className="justify-content-md-center">
                                                 <Card.Text>
-                                                    <Row>
-                                                        <Col>
-                                                            <span>{Math.round(dog.distance) + "mi away"}</span> &#183; <span>{dog.age}</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row>
-                                                        <Col>
-                                                            <span className="dogfound__card-breed">{dog.breed}</span>
-                                                        </Col>
-                                                    </Row>
+                                                    <span>{Math.round(dog.distance) + "mi away"}</span> &#183; <span>{dog.age}</span>
+                                                    <span className="dogfound__card-breed">{dog.breed}</span>
                                                 </Card.Text>
                                             </Row>
                                         </Card.Body>

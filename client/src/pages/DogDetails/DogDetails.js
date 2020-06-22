@@ -69,7 +69,7 @@ class DogDetail extends Component {
                         <Container className="dogDetails__container">
                             <Row>
                                 <Col lg="1">
-                                    <a onClick={this.props.history.goBack} className="dogDetails__arrow left"></a>
+                                    <a onClick={this.props.history.goBack} className="dogDetails__arrow left" aria-label="left arrow go back to dog details page"> </a>
                                 </Col>
                                 <Col lg="7" className="dogDetails__image">
                                     <ImageGallery items={dogInfo.photos} alt="dog profile picture" showThumbnails={false} showFullscreenButton={false} showPlayButton={false} />
@@ -104,8 +104,8 @@ class DogDetail extends Component {
                                     {shelterInfo.email && <h5>{shelterInfo.email}</h5>}
                                     {shelterInfo.phone && <h5>{shelterInfo.phone}</h5>}
                                     <div className="dogDetails__socialIcons">
-                                        {shelterInfo.social_media.facebook && <a className="dogDetails__socialIcons-facebook" href={shelterInfo.social_media.facebook}><i class="fab fa-facebook-square"></i></a> }
-                                        {shelterInfo.social_media.instagram && <a className="dogDetails__socialIcons-instagram" href={shelterInfo.social_media.instagram}><i class="fab fa-instagram-square"></i></a> }
+                                        {shelterInfo.social_media.facebook && <a className="dogDetails__socialIcons-facebook" href={shelterInfo.social_media.facebook}><i className="fab fa-facebook-square"></i></a> }
+                                        {shelterInfo.social_media.instagram && <a className="dogDetails__socialIcons-instagram" href={shelterInfo.social_media.instagram}><i className="fab fa-instagram-square"></i></a> }
                                     </div>
                                 </Col>
                                 {shelterLocation.lat &&

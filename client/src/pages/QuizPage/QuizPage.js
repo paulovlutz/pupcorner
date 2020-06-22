@@ -114,6 +114,7 @@ class QuizPage extends Component {
                             {quizQuestions.map((question, _) => {
                                 return (
                                     <Step
+                                        key={question.id}
                                         id={question.id}
                                         render={({ next, previous, step, steps }) => (
                                         <div>
@@ -129,7 +130,7 @@ class QuizPage extends Component {
                                                 <Row>
                                                     <Col lg="1">
                                                         {steps.indexOf(step) > 0 && (
-                                                            <a className="quiz__cards-arrow left" onClick={previous}></a>
+                                                            <a className="quiz__cards-arrow left" onClick={previous} aria-label="left arrow previous question"> </a>
                                                         )}
                                                     </Col>
                                                         
@@ -138,7 +139,7 @@ class QuizPage extends Component {
                                                     <Col lg="1">
                                                         {/* display arrow only when you have a next step and at least one answer was selected */}
                                                         {(steps.indexOf(step) < steps.length - 1) && (this.state.selectedAnswers[question.id] !== undefined && this.state.selectedAnswers[question.id].length !== 0) && (
-                                                            <a className="quiz__cards-arrow right" onClick={next}></a>
+                                                            <a className="quiz__cards-arrow right" onClick={next} aria-label="right arrow next question"> </a>
                                                         )}                                                            
                                                     </Col>
                                                 </Row>

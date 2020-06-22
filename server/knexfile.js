@@ -5,7 +5,7 @@ module.exports = {
       host: "127.0.0.1",
       user: "root",
       password: "rootroot",
-      database: process.env.DEV_DB_PASSWORD,
+      database: "pupcorner",
       charset: "utf8"
     }
   },
