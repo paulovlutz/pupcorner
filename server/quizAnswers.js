@@ -107,7 +107,7 @@ filterDuplicateDogs = (dogsArray, otherDogsFound) => {
         return (dog.id)
     })
 
-    otherDogsFound = otherDogsFound.filter(dog => !dogArraysIDs.includes(dog.id));
+    return otherDogsFound.filter(dog => !dogArraysIDs.includes(dog.id));
 }
 
 router.post("/", (req, res) => {
@@ -178,7 +178,7 @@ router.post("/", (req, res) => {
             // Due to duplication in the API, I'm filtering out this dog for demonstration purposes
             otherDogsFound = otherDogsFound.filter(dog => dog.id !== 40668183);
 
-            filterDuplicateDogs(dogsArray, otherDogsFound);
+            otherDogsFound = filterDuplicateDogs(dogsArray, otherDogsFound);
             
             return res.status(200).json({dogsFound: dogsArray, otherDogsFound: otherDogsFound});
         })
