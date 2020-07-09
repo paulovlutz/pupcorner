@@ -84,7 +84,7 @@ class QuizPage extends Component {
         .catch(err => {
             // if location not found it uses a default location - Toronto
             let userLat = 43.6532;
-            let userLng = 79.3832;
+            let userLng = -79.3832;
 
             return (axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${userLat},${userLng}&key=${googleAPI}`))
         })
@@ -105,7 +105,7 @@ class QuizPage extends Component {
             })
         })
         .catch(err => {
-            console.log(err);
+            console.log("Sorry, address was not found.");
         })
     }
 
