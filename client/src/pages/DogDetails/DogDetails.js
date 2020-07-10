@@ -104,8 +104,8 @@ class DogDetail extends Component {
                                     {shelterInfo.email && <h5>{shelterInfo.email}</h5>}
                                     {shelterInfo.phone && <h5>{shelterInfo.phone}</h5>}
                                     <div className="dogDetails__socialIcons">
-                                        {shelterInfo.social_media.facebook && <a className="dogDetails__socialIcons-facebook" href={shelterInfo.social_media.facebook}><i className="fab fa-facebook-square"></i></a> }
-                                        {shelterInfo.social_media.instagram && <a className="dogDetails__socialIcons-instagram" href={shelterInfo.social_media.instagram}><i className="fab fa-instagram-square"></i></a> }
+                                        {shelterInfo.social_media.facebook && <a className="dogDetails__socialIcons-facebook" href={shelterInfo.social_media.facebook} target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook-square"></i></a> }
+                                        {shelterInfo.social_media.instagram && <a className="dogDetails__socialIcons-instagram" href={shelterInfo.social_media.instagram} target="_blank" rel="noopener noreferrer"><i className="fab fa-instagram-square"></i></a> }
                                     </div>
                                 </Col>
                                 {shelterLocation.lat &&
